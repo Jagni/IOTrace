@@ -25,6 +25,7 @@
 		BEB9062821BB17A4003250AF /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9062721BB17A4003250AF /* Credentials.swift */; };
 		BEB9062B21BB1C40003250AF /* MQTTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9062A21BB1C40003250AF /* MQTTManager.swift */; };
 		BEB9062D21BB4305003250AF /* IOTPDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9062C21BB4305003250AF /* IOTPDevice.swift */; };
+		BEB9063021BC6A83003250AF /* CloudantDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9062F21BC6A83003250AF /* CloudantDB.swift */; };
 		E3659B402034C21900601F81 /* IOTraceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3659B3F2034C21900601F81 /* IOTraceUITests.swift */; };
 		E3659B4E2034C22500601F81 /* IOTraceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3659B4D2034C22500601F81 /* IOTraceTests.swift */; };
 		E3D187F0202CB90100E41D1D /* CloudantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D187EF202CB90100E41D1D /* CloudantViewModel.swift */; };
@@ -69,6 +70,7 @@
 		BEB9062721BB17A4003250AF /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		BEB9062A21BB1C40003250AF /* MQTTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTManager.swift; sourceTree = "<group>"; };
 		BEB9062C21BB4305003250AF /* IOTPDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOTPDevice.swift; sourceTree = "<group>"; };
+		BEB9062F21BC6A83003250AF /* CloudantDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudantDB.swift; sourceTree = "<group>"; };
 		D08B9A7496D4B743BDD8AACD /* Pods-IOTrace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOTrace.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOTrace/Pods-IOTrace.release.xcconfig"; sourceTree = "<group>"; };
 		E3659B3D2034C21900601F81 /* IOTraceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOTraceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3659B3F2034C21900601F81 /* IOTraceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOTraceUITests.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 		BEB9061C21BAF50F003250AF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BEB9062E21BC67F9003250AF /* Cloudant */,
 				BEB9061F21BAF549003250AF /* IOTP */,
 				BEB9061D21BAF53D003250AF /* DateAggregator.swift */,
 			);
@@ -211,6 +214,14 @@
 				BEB9062A21BB1C40003250AF /* MQTTManager.swift */,
 			);
 			path = MQTT;
+			sourceTree = "<group>";
+		};
+		BEB9062E21BC67F9003250AF /* Cloudant */ = {
+			isa = PBXGroup;
+			children = (
+				BEB9062F21BC6A83003250AF /* CloudantDB.swift */,
+			);
+			path = Cloudant;
 			sourceTree = "<group>";
 		};
 		E3659B3E2034C21900601F81 /* IOTraceUITests */ = {
@@ -465,6 +476,7 @@
 				BEB9061E21BAF53D003250AF /* DateAggregator.swift in Sources */,
 				98EE2C4D1DABCCD100B954F9 /* ViewController.swift in Sources */,
 				98EE2C391DABCCBD00B954F9 /* AppDelegate.swift in Sources */,
+				BEB9063021BC6A83003250AF /* CloudantDB.swift in Sources */,
 				BEB9062321BAF602003250AF /* LocationEvent.swift in Sources */,
 				BEB9061921BAF482003250AF /* MainContainerController.swift in Sources */,
 				BEB9061B21BAF4DE003250AF /* MapViewController.swift in Sources */,
