@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="c0d-Nb-OaK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gnw-bP-AWo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -124,10 +124,14 @@
             </objects>
             <point key="canvasLocation" x="-388" y="1003.4482758620691"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="FOa-Qo-ASY">
             <objects>
-                <viewController id="PHs-Zc-FoM" sceneMemberID="viewController">
+                <viewController id="PHs-Zc-FoM" customClass="MapViewController" customModule="IOTrace" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8FF-F0-Gzd"/>
+                        <viewControllerLayoutGuide type="bottom" id="EbL-Ud-gCN"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2pR-gE-8jl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

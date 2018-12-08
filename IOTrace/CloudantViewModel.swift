@@ -9,6 +9,7 @@
 import Foundation
 import SwiftSpinner
 import BMSCore
+import SwiftyJSON
 
 /// Protocol defining a data receiver
 protocol CloudantDataReceiver: class {
@@ -26,7 +27,7 @@ class CloudantViewModel {
     static var cloudantField: String?
 
     // Items
-    var state: [CloudantItem] = []
+    var dateAggregations: [DateAggregator] = []
 
     // The key to start retrieving data from
     private var startKey: String?
@@ -73,25 +74,6 @@ class CloudantViewModel {
 
     /// MARK: - Public API
 
-    // When the user displays xx% of the data, retrieve more.
-    public func tryToRetrieveItems(_ indexPath: IndexPath) {
-
-        // When should we reload the page 0% -> 100% of rows already seen
-        // Defaults to 100%
-        let displayedPercentage = 1.0
-        let limit = Int(floor(Double(state.count) * displayedPercentage))
-
-        // If we've viewed xx% of the cells, try to retrieve more.
-        if state.count < databaseCount, indexPath.row + 1 == limit {
-            retrieveItems()
-        }
-    }
-
-    // Retrieves the item from the state
-    public func retrieveItem(at indexPath: IndexPath) -> CloudantItem? {
-        return state[indexPath.row]
-    }
-
     // Initiates a network call to retrieve more items from the database
     public func retrieveItems() {
         guard isConfigured, !isLoading else {
@@ -102,9 +84,9 @@ class CloudantViewModel {
         getItems()
     }
 
-    // Number of items in state
-    public func numberOfItemsInState() -> Int {
-        return state.count
+    // Number of items in dateAggregations
+    public func numberOfItemsIndateAggregations() -> Int {
+        return dateAggregations.count
     }
 
     /// MARK: - Configuration
@@ -209,7 +191,7 @@ extension CloudantViewModel {
                 if let item = response.rows.last {
                     self.startKey = item.id
                 }
-                self.state.append(contentsOf: response.rows)
+                //self.dateAggregations.append(response.rows)
                 self.databaseCount = response.total_rows
                 self.delegate?.didRecieveItems()
             } catch {

@@ -12,6 +12,6 @@ class DateAggregator {
     var luminances = [LuminanceEvent]()
     
     var oldestDate : Date? {
-        locations.first.
+        return locations.first?.date
     }
 }

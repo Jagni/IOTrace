@@ -302,6 +302,7 @@
 				TargetAttributes = {
 					555C91A71D0F0731003E84E3 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 5FMB4K7553;
 						LastSwiftMigration = 0920;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -633,6 +634,7 @@
 			baseConfigurationReference = 1AFE8C0E5B5FC41FBA4B5EC2 /* Pods-IOTrace.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5FMB4K7553;
 				INFOPLIST_FILE = "$(SRCROOT)/IOTrace/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -648,6 +650,7 @@
 			baseConfigurationReference = D08B9A7496D4B743BDD8AACD /* Pods-IOTrace.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5FMB4K7553;
 				INFOPLIST_FILE = "$(SRCROOT)/IOTrace/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

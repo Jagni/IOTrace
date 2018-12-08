@@ -19,8 +19,6 @@ class ViewController: UITableViewController {
     // Cloudant Driver
     var client: CloudantViewModel?
 
-    
-
     override func viewDidLoad() {
 
         // Setup refresh control
@@ -114,42 +112,6 @@ extension ViewController: CloudantDataReceiver {
                 self.present(alert, animated: true, completion: nil)
             }
         }
-    }
-}
-
-// TableViewController Conformance
-extension ViewController {
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return client?.numberOfItemsInState() ?? 0
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        // Table view cells are reused and should be dequeued using a cell identifier.
-        let cellIdentifier = "CloudantTableViewCell"
-
-        // Fetches the appropriate cloudant item for the data source layout.
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CloudantTableViewCell else {
-            return CloudantTableViewCell()
-        }
-
-        guard let item = client?.retrieveItem(at: indexPath) else {
-            return CloudantTableViewCell()
-        }
-
-        cell.titleLabel.text = item.fieldValue
-        cell.selectionStyle = .none
-
-        return cell
-    }
-
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        client?.tryToRetrieveItems(indexPath)
     }
 }
 

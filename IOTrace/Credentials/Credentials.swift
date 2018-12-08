@@ -22,7 +22,7 @@ class IOTPCredentials {
     static let username = IOTPCredentials.apiKey
     static let password = IOTPCredentials.token
     
-    static let mqttPort = credentialsDict["iotplatformMqtt_s_port"] as! Int
+    static let mqttPort = Int(credentialsDict["iotplatformMqtt_s_port"] as! String)
     
     static let clientID = "a:\(IOTPCredentials.org):\(IOTPCredentials.apiKey)"
     static let host = "\(IOTPCredentials.org).messaging.internetofthings.ibmcloud.com"

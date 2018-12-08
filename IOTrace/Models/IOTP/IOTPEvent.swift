@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import SwiftDate
 
 class IOTPEvent {
     var timestamp = ""
@@ -18,7 +19,15 @@ class IOTPEvent {
         self.id = json["id"].stringValue
     }
     
-    var date : Date {
-        return self.timestamp
+    var date : Date? {
+        return self.timestamp.toISODate()?.date
+    }
+    
+    var dateString : String? {
+        return self.date?.toString(.date(.full))
+    }
+    
+    var timeString : String? {
+        return self.date?.toString(.time(.medium))
     }
 }
