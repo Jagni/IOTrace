@@ -6,6 +6,11 @@
 	<string>Autorize para se localizar no mapa!</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>CFBundleDisplayName</key>
 	<string>IOTrace</string>
 	<key>CFBundleExecutable</key>

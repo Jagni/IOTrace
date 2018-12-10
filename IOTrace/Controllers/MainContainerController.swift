@@ -16,8 +16,10 @@ var detailed = false
 class MainContainerController: UIViewController, DateControllerDelegate, MapControllerDelegate {
     func didChangeIndex(_ index: IndexPath) {
         currentDate = self.client?.dateAggregations[index.item]
-        self.reloadSubviews()
+        self.reloadMap()
         self.mapController.moveToMarker()
+        animateGraph()
+
     }
     
     // Logger
@@ -46,11 +48,14 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
     }
     
     func animateGraph(){
-        graphController.setLuminances(luminances: currentDate?.luminances)
+        DispatchQueue.main.async {
+            
+        
+        self.graphController.setLuminances(luminances: self.currentDate?.luminances)
+        self.mapController.setDetailed(detailed)
         UIView.animate(withDuration: 0.25) {
             self.graphView.alpha = detailed ? 1 : 0
-            self.mapController.setDetailed(detailed)
-            self.mapController.view.layoutIfNeeded()
+        }
         }
     }
     
@@ -88,13 +93,13 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
         // Register observer
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didBecomeActive),
-                                               name: .UIApplicationDidBecomeActive,
+                                               name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
         
-        mqttClient.username = IOTPCredentials.username
-        mqttClient.password = IOTPCredentials.password
-        mqttClient.keepAlive = 60
-        mqttClient.delegate = self
+//        mqttClient.username = IOTPCredentials.username
+//        mqttClient.password = IOTPCredentials.password
+//        mqttClient.keepAlive = 60
+//        mqttClient.delegate = self
         
         // Set up Cloudant Driver
         configureCloudant()

@@ -4,12 +4,10 @@
 target 'IOTrace' do
     pod 'BMSCore'
     pod 'SwiftCloudant', :git => 'https://github.com/cloudant/swift-cloudant.git'
-    pod 'SwiftSpinner', '1.5'
     pod 'SwiftyJSON'
     pod 'SwiftDate'
     pod 'UPCarouselFlowLayout'
     pod 'GoogleMaps'
-    pod 'GooglePlaces'
     pod 'CocoaMQTT'
     pod 'ScrollableGraphView'
     #
