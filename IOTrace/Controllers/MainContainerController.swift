@@ -16,7 +16,8 @@ class MainContainerController: UIViewController {
     // Logger
     // Cloudant Driver
     var client: CloudantViewModel?
-    
+    var mapController: MapViewController!
+    var dateController: DateCollectionController!
     
     override func viewDidLoad() {
         
@@ -38,11 +39,17 @@ class MainContainerController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "map" {
             let controller = segue.destination as! MapViewController
+            self.mapController = controller
         }
+        if segue.identifier == "date" {
+            let controller = segue.destination as! DateCollectionController
+            self.dateController = controller
+        }
+        self.client?.retrieveItems()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.client?.retrieveItems()
     }
     
     override func didReceiveMemoryWarning() {
@@ -78,6 +85,7 @@ class MainContainerController: UIViewController {
         
         self.client = CloudantViewModel(userId: userId, password: password, cloudantURL: cloudantURL)
         self.client?.delegate = self
+        self.client?.retrieveItems()
     }
 }
 
@@ -85,7 +93,10 @@ extension MainContainerController: CloudantDataReceiver {
     
     // Callback method to reload the tableview when more data is available
     func didRecieveItems() {
-        
+        if let aggregator = self.client?.dateAggregations.first {
+            self.mapController.loadMarkers(aggregator: aggregator, detailed: true)
+        }
+        self.dateController.reloadDates(newDates: self.client?.dateAggregations, detailed: true)
     }
     
     // Display alert error

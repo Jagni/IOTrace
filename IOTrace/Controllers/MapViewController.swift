@@ -11,8 +11,10 @@ import UIKit
 import GoogleMaps
 
 
-class MapViewController : UIViewController, CLLocationManagerDelegate{
+class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate{
     var locationManager = CLLocationManager()
+    var selectedTime : String?
+    var markerPairs = [GMSMarker : GMSCircle]()
     var mapView : GMSMapView {
         return self.view as! GMSMapView
     }
@@ -24,17 +26,61 @@ class MapViewController : UIViewController, CLLocationManagerDelegate{
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
+        mapView.delegate = self
         view = mapView
         
-        // Creates a marker in the center of the map.
-//        let marker = GMSMarker()
-//        marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
-//        marker.title = "Sydney"
-//        marker.snippet = "Australia"
-//        marker.map = mapView
-        
-        //Location Manager code to fetch current location
-        
+    }
+    
+    func loadMarkers(aggregator: DateAggregator, detailed: Bool){
+        DispatchQueue.main.async {
+            self.mapView.clear()
+            self.markerPairs.removeAll()
+            if aggregator.intervals.count > 0{
+                if detailed {
+                    for interval in aggregator.intervals {
+                        for location in interval.locations{
+                            let marker = GMSMarker()
+                            marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                            marker.title = location.timeString
+                            marker.snippet = "Latitude: \(location.latitude!)º\nLongitude:\(location.longitude!)º"
+                            marker.icon = GMSMarker.markerImage(with: markerColor)
+                            marker.map = self.mapView
+                            
+                            let circle = GMSCircle(position: marker.position, radius: location.accuracy)
+                            circle.fillColor = unselectedCircleColor
+                            circle.strokeColor = UIColor.white
+                            circle.strokeWidth = 2
+                            
+                            circle.map = self.mapView
+                            
+                            self.markerPairs[marker] = circle
+                        }
+                    }
+                } else {
+                    let interval = aggregator.intervals.first!
+                    let location = interval.locations.first!
+                    let marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                    marker.title = "\(location.timeString)"
+                    marker.icon = GMSMarker.markerImage(with: markerColor)
+                    if interval.locations.count > 1 {
+                        marker.title = "\(location.timeString) - \(interval.locations.last!.timeString)"
+                    }
+                    marker.snippet = "Latitude: \(location.latitude!)º\nLongitude:\(location.latitude!)º"
+                    marker.map = self.mapView
+                    
+                    let circle = GMSCircle(position: marker.position, radius: location.accuracy)
+                    circle.fillColor = unselectedCircleColor
+                    circle.strokeColor = UIColor.white
+                    circle.strokeWidth = 3
+                    circle.map = self.mapView
+                    
+                    self.markerPairs[marker] = circle
+                }
+            } else {
+                //Show Empty View
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,17 +89,32 @@ class MapViewController : UIViewController, CLLocationManagerDelegate{
         self.locationManager.startUpdatingLocation()
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-//        DispatchQueue.main.sync {
-//            let location = locations.last
-//            
-//            let camera = GMSCameraPosition.camera(withLatitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!, zoom: 17.0)
-//            
-//            self.mapView.animate(to: camera)
-//            
-//            //Finally stop updating location otherwise it will come again and again in this delegate
-//            self.locationManager.stopUpdatingLocation()
+
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        selectedTime = marker.title
+        
+        for iterator in markerPairs{
+            iterator.value.fillColor = UIColor.white.withAlphaComponent(0)
+            iterator.value.strokeColor = UIColor.white.withAlphaComponent(0)
+        }
+        
+        let circle = markerPairs[marker]!
+        circle.fillColor = selectedCircleColor
+        circle.strokeColor = markerColor
+        
+        return false
+    }
+    
+    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
+//        for iterator in markerPairs{
+//            iterator.value.fillColor = unselectedCircleColor
+//            iterator.value.strokeColor = UIColor.white
 //        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
     }
     
     //Location Manager delegates

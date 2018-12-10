@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		5E6E385786F79373B9B58FBF /* Pods_IOTrace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1C5BE4A773D6293E096406 /* Pods_IOTrace.framework */; };
 		98EE2C391DABCCBD00B954F9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE2C381DABCCBD00B954F9 /* AppDelegate.swift */; };
-		98EE2C4A1DABCCD100B954F9 /* CloudantItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE2C401DABCCD100B954F9 /* CloudantItem.swift */; };
-		98EE2C4B1DABCCD100B954F9 /* CloudantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE2C411DABCCD100B954F9 /* CloudantTableViewCell.swift */; };
-		98EE2C4D1DABCCD100B954F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EE2C431DABCCD100B954F9 /* ViewController.swift */; };
 		98EE2C531DABCD9E00B954F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98EE2C521DABCD9E00B954F9 /* Assets.xcassets */; };
 		98EE2C5E1DABE64A00B954F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98EE2C5C1DABE64A00B954F9 /* LaunchScreen.storyboard */; };
 		98EE2C611DABE70400B954F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98EE2C5F1DABE70400B954F9 /* Main.storyboard */; };
@@ -26,6 +23,10 @@
 		BEB9062B21BB1C40003250AF /* MQTTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9062A21BB1C40003250AF /* MQTTManager.swift */; };
 		BEB9062D21BB4305003250AF /* IOTPDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9062C21BB4305003250AF /* IOTPDevice.swift */; };
 		BEB9063021BC6A83003250AF /* CloudantDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9062F21BC6A83003250AF /* CloudantDB.swift */; };
+		BEB9063321BDBC23003250AF /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9063221BDBC23003250AF /* Colors.swift */; };
+		BEB9063521BDBDED003250AF /* LocationInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9063421BDBDED003250AF /* LocationInterval.swift */; };
+		BEB9063821BDC60A003250AF /* FortalezaLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = BEB9063721BDC60A003250AF /* FortalezaLocation.gpx */; };
+		BEB9063A21BDDB7E003250AF /* DateCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9063921BDDB7E003250AF /* DateCollectionController.swift */; };
 		E3659B402034C21900601F81 /* IOTraceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3659B3F2034C21900601F81 /* IOTraceUITests.swift */; };
 		E3659B4E2034C22500601F81 /* IOTraceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3659B4D2034C22500601F81 /* IOTraceTests.swift */; };
 		E3D187F0202CB90100E41D1D /* CloudantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D187EF202CB90100E41D1D /* CloudantViewModel.swift */; };
@@ -53,11 +54,8 @@
 		1AFE8C0E5B5FC41FBA4B5EC2 /* Pods-IOTrace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOTrace.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOTrace/Pods-IOTrace.debug.xcconfig"; sourceTree = "<group>"; };
 		555C91A81D0F0731003E84E3 /* IOTrace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOTrace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98EE2C381DABCCBD00B954F9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = IOTrace/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
-		98EE2C401DABCCD100B954F9 /* CloudantItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudantItem.swift; path = IOTrace/CloudantItem.swift; sourceTree = SOURCE_ROOT; };
-		98EE2C411DABCCD100B954F9 /* CloudantTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloudantTableViewCell.swift; path = IOTrace/CloudantTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		98EE2C421DABCCD100B954F9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = IOTrace/Info.plist; sourceTree = SOURCE_ROOT; };
-		98EE2C431DABCCD100B954F9 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = IOTrace/ViewController.swift; sourceTree = SOURCE_ROOT; };
-		98EE2C521DABCD9E00B954F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = IOTrace/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		98EE2C521DABCD9E00B954F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = IOTrace/Design/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		98EE2C5D1DABE64A00B954F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = IOTrace/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		98EE2C601DABE70400B954F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = IOTrace/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		AC3033191E38020600D43D5B /* ApplicationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationError.swift; sourceTree = "<group>"; };
@@ -71,6 +69,10 @@
 		BEB9062A21BB1C40003250AF /* MQTTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTManager.swift; sourceTree = "<group>"; };
 		BEB9062C21BB4305003250AF /* IOTPDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOTPDevice.swift; sourceTree = "<group>"; };
 		BEB9062F21BC6A83003250AF /* CloudantDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudantDB.swift; sourceTree = "<group>"; };
+		BEB9063221BDBC23003250AF /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		BEB9063421BDBDED003250AF /* LocationInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInterval.swift; sourceTree = "<group>"; };
+		BEB9063721BDC60A003250AF /* FortalezaLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FortalezaLocation.gpx; sourceTree = "<group>"; };
+		BEB9063921BDDB7E003250AF /* DateCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCollectionController.swift; sourceTree = "<group>"; };
 		D08B9A7496D4B743BDD8AACD /* Pods-IOTrace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOTrace.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOTrace/Pods-IOTrace.release.xcconfig"; sourceTree = "<group>"; };
 		E3659B3D2034C21900601F81 /* IOTraceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOTraceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3659B3F2034C21900601F81 /* IOTraceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOTraceUITests.swift; sourceTree = "<group>"; };
@@ -142,21 +144,14 @@
 		555C91AA1D0F0731003E84E3 /* IOTrace */ = {
 			isa = PBXGroup;
 			children = (
-				BEB9062921BB1C2F003250AF /* MQTT */,
-				BEB9062621BB175C003250AF /* Credentials */,
-				BEB9061C21BAF50F003250AF /* Models */,
-				BEB9061721BAF46C003250AF /* Controllers */,
-				EC515349498F4131BCB64321 /* BMSCredentials.plist */,
-				E3D187EF202CB90100E41D1D /* CloudantViewModel.swift */,
 				98EE2C381DABCCBD00B954F9 /* AppDelegate.swift */,
 				98EE2C5C1DABE64A00B954F9 /* LaunchScreen.storyboard */,
 				98EE2C5F1DABE70400B954F9 /* Main.storyboard */,
-				AC3033191E38020600D43D5B /* ApplicationError.swift */,
-				98EE2C401DABCCD100B954F9 /* CloudantItem.swift */,
-				98EE2C411DABCCD100B954F9 /* CloudantTableViewCell.swift */,
-				98EE2C521DABCD9E00B954F9 /* Assets.xcassets */,
 				98EE2C421DABCCD100B954F9 /* Info.plist */,
-				98EE2C431DABCCD100B954F9 /* ViewController.swift */,
+				BEB9063621BDC535003250AF /* Connectivity */,
+				BEB9063121BDBC17003250AF /* Design */,
+				BEB9061C21BAF50F003250AF /* Models */,
+				BEB9061721BAF46C003250AF /* Controllers */,
 			);
 			path = IOTrace;
 			sourceTree = "<group>";
@@ -175,6 +170,7 @@
 			children = (
 				BEB9061821BAF482003250AF /* MainContainerController.swift */,
 				BEB9061A21BAF4DE003250AF /* MapViewController.swift */,
+				BEB9063921BDDB7E003250AF /* DateCollectionController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -184,6 +180,7 @@
 			children = (
 				BEB9062E21BC67F9003250AF /* Cloudant */,
 				BEB9061F21BAF549003250AF /* IOTP */,
+				BEB9063421BDBDED003250AF /* LocationInterval.swift */,
 				BEB9061D21BAF53D003250AF /* DateAggregator.swift */,
 			);
 			path = Models;
@@ -203,6 +200,7 @@
 		BEB9062621BB175C003250AF /* Credentials */ = {
 			isa = PBXGroup;
 			children = (
+				EC515349498F4131BCB64321 /* BMSCredentials.plist */,
 				BEB9062721BB17A4003250AF /* Credentials.swift */,
 			);
 			path = Credentials;
@@ -211,6 +209,7 @@
 		BEB9062921BB1C2F003250AF /* MQTT */ = {
 			isa = PBXGroup;
 			children = (
+				BEB9062621BB175C003250AF /* Credentials */,
 				BEB9062A21BB1C40003250AF /* MQTTManager.swift */,
 			);
 			path = MQTT;
@@ -222,6 +221,26 @@
 				BEB9062F21BC6A83003250AF /* CloudantDB.swift */,
 			);
 			path = Cloudant;
+			sourceTree = "<group>";
+		};
+		BEB9063121BDBC17003250AF /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				98EE2C521DABCD9E00B954F9 /* Assets.xcassets */,
+				BEB9063221BDBC23003250AF /* Colors.swift */,
+				BEB9063721BDC60A003250AF /* FortalezaLocation.gpx */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		BEB9063621BDC535003250AF /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				E3D187EF202CB90100E41D1D /* CloudantViewModel.swift */,
+				AC3033191E38020600D43D5B /* ApplicationError.swift */,
+				BEB9062921BB1C2F003250AF /* MQTT */,
+			);
+			path = Connectivity;
 			sourceTree = "<group>";
 		};
 		E3659B3E2034C21900601F81 /* IOTraceUITests */ = {
@@ -360,6 +379,7 @@
 			files = (
 				E5D9E2C506F04DA1BD1035D8 /* BMSCredentials.plist in Resources */,
 				98EE2C611DABE70400B954F9 /* Main.storyboard in Resources */,
+				BEB9063821BDC60A003250AF /* FortalezaLocation.gpx in Resources */,
 				98EE2C531DABCD9E00B954F9 /* Assets.xcassets in Resources */,
 				98EE2C5E1DABE64A00B954F9 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -465,16 +485,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEB9063521BDBDED003250AF /* LocationInterval.swift in Sources */,
 				E3D187F0202CB90100E41D1D /* CloudantViewModel.swift in Sources */,
+				BEB9063321BDBC23003250AF /* Colors.swift in Sources */,
 				BEB9062D21BB4305003250AF /* IOTPDevice.swift in Sources */,
 				AC30331A1E38020600D43D5B /* ApplicationError.swift in Sources */,
-				98EE2C4A1DABCCD100B954F9 /* CloudantItem.swift in Sources */,
-				98EE2C4B1DABCCD100B954F9 /* CloudantTableViewCell.swift in Sources */,
 				BEB9062821BB17A4003250AF /* Credentials.swift in Sources */,
 				BEB9062121BAF55E003250AF /* IOTPEvent.swift in Sources */,
+				BEB9063A21BDDB7E003250AF /* DateCollectionController.swift in Sources */,
 				BEB9062521BAF696003250AF /* LuminanceEvent.swift in Sources */,
 				BEB9061E21BAF53D003250AF /* DateAggregator.swift in Sources */,
-				98EE2C4D1DABCCD100B954F9 /* ViewController.swift in Sources */,
 				98EE2C391DABCCBD00B954F9 /* AppDelegate.swift in Sources */,
 				BEB9063021BC6A83003250AF /* CloudantDB.swift in Sources */,
 				BEB9062321BAF602003250AF /* LocationEvent.swift in Sources */,

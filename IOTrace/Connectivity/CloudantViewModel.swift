@@ -27,23 +27,11 @@ class CloudantViewModel {
     var dateAggregations: [DateAggregator] = []
     
     // The key to start retrieving data from
-    private var startKey: String?
+    private var locationStartKey: String?
+    private var luminanceStartKey: String?
     
     // Number of documents to retrieve at a time
     private let block: Int = 100
-    private var consultedYear: Int = Date().year
-    private var consultedMonth: Int = Date().month
-    
-    func decreaseDatabaseBucket(){
-        consultedMonth -= 1
-        
-        if consultedMonth <= 0 {
-            consultedYear -= 1
-            consultedMonth = 12
-        }
-        
-        self.retrieveItems()
-    }
     
     // Indicates whether the view model has been configured
     private var isConfigured: Bool = false
@@ -55,9 +43,12 @@ class CloudantViewModel {
     private var totalEntries: Int = 0
     
     //Cloudant avaiable databases
-    private var databases : [String]?
-    
+    private var databases : [CloudantDB]?
     private var DBIndex = 0
+    
+    private var currentDB : CloudantDB? {
+        return databases?[DBIndex]
+    }
     
     // Cloudant Endpoint
     private let cloudantURL: URL
@@ -93,7 +84,7 @@ class CloudantViewModel {
         }
         
         isLoading = true
-        getItems()
+        getLocations()
     }
     
     // Number of items in dateAggregations
@@ -125,18 +116,15 @@ class CloudantViewModel {
     // Configure database and field to be used
     private func setupDatabase() {
         
-        SwiftSpinner.show("Configuring Cloudant")
-        
         /// Retrieve an available database
         getCloudantDBNames {
             
-            self.logger.debug(message: "Using the cloudant database: \(db)")
+            //self.logger.debug(message: "Using the cloudant database: \(currentDB?.name)")
             
             /// Retrieve a field from the database
             
             self.isConfigured = true
             self.retrieveItems()
-            SwiftSpinner.hide()
         }
     }
     
@@ -146,12 +134,12 @@ class CloudantViewModel {
 extension CloudantViewModel {
     
     // Get items from Cloudant
-    fileprivate func getItems() {
+    fileprivate func getLocations() {
         
         logger.debug(message: "Retrieving documents")
         
         // Ensure we have a database
-        guard initialCloudantDB != nil else {
+        guard let db = currentDB else {
             self.delegate?.showError(.invalidDatabase)
             return
         }
@@ -164,12 +152,12 @@ extension CloudantViewModel {
         }
         
         // Append path and query Items
-        queryURL.path = "/" + db + "/_all_docs"
+        queryURL.path = "/" + db.name + "/_design/iotp/_view/locations-byDate"
         var items = [ URLQueryItem(name: "include_docs", value: "true"),
                       URLQueryItem(name: "limit", value: String(block))
         ]
         
-        if let key = startKey {
+        if let key = locationStartKey {
             items.append(URLQueryItem(name: "startkey", value: "\"\(key)\""))
             items.append(URLQueryItem(name: "skip", value: String(1)))
         }
@@ -184,19 +172,46 @@ extension CloudantViewModel {
         }
         
         request(url: url) { data in
-            do {
-                self.isLoading = false
-                let response = try JSONDecoder().decode(CloudantRows.self, from: data)
-                if let item = response.rows.last {
-                    self.startKey = item.id
+            self.isLoading = false
+            let response = JSON(data)
+            
+            for item in response["rows"].arrayValue {
+                let location = LocationEvent(json: item["doc"])
+                self.addLocation(location)
+            }
+            
+            if let item = response["rows"].arrayValue.last {
+                self.locationStartKey = item["key"].stringValue
+            }
+            
+            if response["rows"].arrayValue.count < self.block {
+                self.DBIndex += 1
+                if self.DBIndex < self.databases!.count {
+                    self.locationStartKey = nil
+                    self.retrieveItems()
                 }
-                //self.dateAggregations.append(response.rows)
-                self.totalEntries = response.total_rows
-                self.delegate?.didRecieveItems()
-            } catch {
-                self.delegate?.showError(.JSONParseError)
+            } else {
+                self.retrieveItems()
+            }
+    
+            self.delegate?.didRecieveItems()
+        }
+    }
+    
+    func addLocation(_ location: LocationEvent) {
+        var added = false
+        
+        for dateAggregation in self.dateAggregations {
+            added = dateAggregation.appendLocation(location)
+            if added {
+                return
             }
         }
+        
+        let aggregation = DateAggregator()
+        _ = aggregation.appendLocation(location)
+        self.dateAggregations.append(aggregation)
+        self.dateAggregations.sort()
     }
     
     // Get the first DB name from Cloudant that does not start with a _. Admin permissions are required for this method to work
@@ -207,15 +222,14 @@ extension CloudantViewModel {
         let queryURL = cloudantURL.appendingPathComponent("/_all_dbs")
         
         request(url: queryURL) { data in
-            var databases = try? JSONDecoder().decode([String].self, from: data)
-            let string = "asd"
-            databases = databases?.filter({ (name) -> Bool in
-                name.contains("iotp_39ps2j_devices_")
+            let databaseNames = try? JSONDecoder().decode([String].self, from: data)
+            
+            self.databases = databaseNames?.compactMap({ name in
+                CloudantDB(name: name)
             })
             
-            databases = databases?.compactMap({ (name) -> String in
-                name.replacingOccurrences(of: "iotp_39ps2j_devices_", with: "")
-            })
+            self.databases?.sort()
+            self.databases?.reverse()
             
             success()
         }
