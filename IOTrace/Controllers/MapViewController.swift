@@ -131,29 +131,17 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
     
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        selectedTime = marker.title
         
         for iterator in markerPairs{
-            iterator.value.1.fillColor = UIColor.white.withAlphaComponent(0)
-            iterator.value.1.strokeColor = UIColor.white.withAlphaComponent(0)
+            iterator.value.1.map = nil
         }
         
         let circle = markerPairs[marker]!.1
-        circle.fillColor = selectedCircleColor
-        circle.strokeColor = markerColor
+        circle.map = self.mapView
         
         self.delegate?.didSelectMarker(location: markerPairs[marker]!.0)
         
         return false
-    }
-    
-    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
-        if mapView.selectedMarker == nil {
-            for iterator in markerPairs{
-                iterator.value.1.fillColor = unselectedCircleColor
-                iterator.value.1.strokeColor = UIColor.white
-            }
-        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

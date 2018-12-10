@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftSpinner
 import BMSCore
 import SwiftyJSON
 
