@@ -13,7 +13,7 @@
         <scene sceneID="271-x4-sAR">
             <objects>
                 <collectionViewController id="1FO-1X-amy" customClass="DateCollectionController" customModule="IOTrace" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="wNl-0g-IBj">
+                    <collectionView key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="wNl-0g-IBj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -32,7 +32,7 @@
                             </userDefinedRuntimeAttributes>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="date" id="IKA-Pd-wgA" customClass="DateCell" customModule="IOTrace" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="date" id="IKA-Pd-wgA" customClass="DateCell" customModule="IOTrace" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="160" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -86,6 +86,27 @@
                                     <constraint firstItem="hGb-of-vDX" firstAttribute="top" secondItem="IKA-Pd-wgA" secondAttribute="centerY" constant="4" id="vX8-R0-heP"/>
                                     <constraint firstItem="1Ua-Cw-Jjm" firstAttribute="trailing" secondItem="IKA-Pd-wgA" secondAttribute="centerX" constant="-8" id="z7V-um-AFj"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shadow" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOppacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowVerticalOffset">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHorizontalOffset">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dateLabel" destination="9UP-sP-kPV" id="qXK-6O-PFw"/>
                                     <outlet property="locationImage" destination="hGb-of-vDX" id="8S0-2C-X92"/>
@@ -131,30 +152,48 @@
                                     <segue destination="1FO-1X-amy" kind="embed" identifier="date" id="TAQ-cN-mR2"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTq-0x-szI" userLabel="Graph">
-                                <rect key="frame" x="16" y="432" width="288" height="120"/>
+                            <containerView opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTq-0x-szI" userLabel="Graph">
+                                <rect key="frame" x="0.0" y="448" width="320" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="CV1-Wa-mxa"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="xt2-jz-olr" kind="embed" id="S1P-tJ-UGq"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qN-Xk-j7Z">
+                                <rect key="frame" x="111.5" y="116" width="97" height="30"/>
+                                <state key="normal" title="Mais Detalhes"/>
+                                <connections>
+                                    <action selector="didTapDetail:" destination="gnw-bP-AWo" eventType="touchUpInside" id="moF-Ud-rjf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="H2e-P0-QrA" secondAttribute="bottom" id="59s-ng-XOt"/>
                             <constraint firstItem="H2e-P0-QrA" firstAttribute="leading" secondItem="8KH-3O-cux" secondAttribute="leading" id="5VX-G9-c3e"/>
                             <constraint firstAttribute="trailing" secondItem="brb-No-Tye" secondAttribute="trailing" id="7y4-WE-dw4"/>
+                            <constraint firstItem="5qN-Xk-j7Z" firstAttribute="top" secondItem="brb-No-Tye" secondAttribute="bottom" constant="8" id="GLR-lf-Ezy"/>
+                            <constraint firstItem="5qN-Xk-j7Z" firstAttribute="centerX" secondItem="8KH-3O-cux" secondAttribute="centerX" id="Kgm-jS-4Ct"/>
                             <constraint firstItem="brb-No-Tye" firstAttribute="leading" secondItem="8KH-3O-cux" secondAttribute="leading" id="TWw-DD-jjJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rTq-0x-szI" secondAttribute="trailing" id="USI-2v-Gg5"/>
+                            <constraint firstAttribute="trailing" secondItem="rTq-0x-szI" secondAttribute="trailing" id="USI-2v-Gg5"/>
                             <constraint firstAttribute="trailing" secondItem="H2e-P0-QrA" secondAttribute="trailing" id="dax-lN-rXv"/>
-                            <constraint firstItem="MR2-Ku-xod" firstAttribute="top" secondItem="rTq-0x-szI" secondAttribute="bottom" constant="16" id="dhQ-kJ-Hyc"/>
+                            <constraint firstAttribute="bottom" secondItem="rTq-0x-szI" secondAttribute="bottom" id="dhQ-kJ-Hyc"/>
                             <constraint firstItem="H2e-P0-QrA" firstAttribute="top" secondItem="8KH-3O-cux" secondAttribute="top" id="jIF-Dt-fwm"/>
-                            <constraint firstItem="rTq-0x-szI" firstAttribute="leading" secondItem="8KH-3O-cux" secondAttribute="leadingMargin" id="oOh-ap-rqw"/>
+                            <constraint firstItem="rTq-0x-szI" firstAttribute="leading" secondItem="8KH-3O-cux" secondAttribute="leading" id="oOh-ap-rqw"/>
                             <constraint firstItem="brb-No-Tye" firstAttribute="top" secondItem="0eh-dg-oP5" secondAttribute="bottom" constant="8" id="p41-Fl-wca"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="detailButton" destination="5qN-Xk-j7Z" id="ciS-Sb-aRU"/>
+                        <outlet property="graphView" destination="rTq-0x-szI" id="LQs-aw-bHt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="peW-8o-bMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -187,7 +226,7 @@
                         <viewControllerLayoutGuide type="bottom" id="kWY-wV-VVS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9bv-5l-yQ8">
-                        <rect key="frame" x="0.0" y="0.0" width="288" height="120"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>

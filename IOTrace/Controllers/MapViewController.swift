@@ -31,54 +31,76 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
         
     }
     
-    func loadMarkers(aggregator: DateAggregator, detailed: Bool){
+    func setDetailed(_ value: Bool){
+        DispatchQueue.main.async {
+
+        self.mapView.padding = UIEdgeInsets(top: 120, left: 0, bottom: value ? 120 : 0, right: 0)
+            
+        }
+    }
+    
+    func moveToMarker(){
+        DispatchQueue.main.async {
+            if let marker = self.markerPairs.first{
+                self.mapView.animate(toLocation: marker.key.position)
+            }
+        }
+    }
+    
+    func loadMarkers(dateAggregator: DateAggregator?, detailed: Bool){
         DispatchQueue.main.async {
             self.mapView.clear()
             self.markerPairs.removeAll()
-            if aggregator.intervals.count > 0{
-                if detailed {
-                    for interval in aggregator.intervals {
-                        for location in interval.locations{
-                            let marker = GMSMarker()
-                            marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-                            marker.title = location.timeString
-                            marker.snippet = "Latitude: \(location.latitude!)º\nLongitude:\(location.longitude!)º"
-                            marker.icon = GMSMarker.markerImage(with: markerColor)
-                            marker.map = self.mapView
-                            
-                            let circle = GMSCircle(position: marker.position, radius: location.accuracy)
-                            circle.fillColor = unselectedCircleColor
-                            circle.strokeColor = UIColor.white
-                            circle.strokeWidth = 2
-                            
-                            circle.map = self.mapView
-                            
-                            self.markerPairs[marker] = circle
+            if let aggregator = dateAggregator{
+                if aggregator.intervals.count > 0{
+                    if detailed {
+                        for interval in aggregator.intervals {
+                            for location in interval.locations{
+                                let marker = GMSMarker()
+                                marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                                marker.title = location.timeString
+                                marker.snippet = "Latitude: \(location.latitude!)º\nLongitude:\(location.longitude!)º"
+                                marker.icon = GMSMarker.markerImage(with: markerColor)
+                                marker.map = self.mapView
+                                
+                                let circle = GMSCircle(position: marker.position, radius: location.accuracy)
+                                circle.fillColor = unselectedCircleColor
+                                circle.strokeColor = UIColor.white
+                                circle.strokeWidth = 2
+                                
+                                circle.map = self.mapView
+                                
+                                self.markerPairs[marker] = circle
+                            }
+                        }
+                    } else {
+                        for interval in aggregator.intervals {
+                            if let location = interval.locations.first{
+                                let marker = GMSMarker()
+                                marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                                marker.title = "\(location.timeString)"
+                                marker.icon = GMSMarker.markerImage(with: markerColor)
+                                if interval.locations.count > 1 {
+                                    marker.title = "\(location.timeString) - \(interval.locations.last!.timeString)"
+                                }
+                                marker.snippet = "Latitude: \(location.latitude!)º\nLongitude:\(location.latitude!)º"
+                                marker.map = self.mapView
+                                
+                                let circle = GMSCircle(position: marker.position, radius: location.accuracy)
+                                circle.fillColor = unselectedCircleColor
+                                circle.strokeColor = UIColor.white
+                                circle.strokeWidth = 3
+                                circle.map = self.mapView
+                                
+                                self.markerPairs[marker] = circle
+                            }
                         }
                     }
                 } else {
-                    let interval = aggregator.intervals.first!
-                    let location = interval.locations.first!
-                    let marker = GMSMarker()
-                    marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-                    marker.title = "\(location.timeString)"
-                    marker.icon = GMSMarker.markerImage(with: markerColor)
-                    if interval.locations.count > 1 {
-                        marker.title = "\(location.timeString) - \(interval.locations.last!.timeString)"
-                    }
-                    marker.snippet = "Latitude: \(location.latitude!)º\nLongitude:\(location.latitude!)º"
-                    marker.map = self.mapView
-                    
-                    let circle = GMSCircle(position: marker.position, radius: location.accuracy)
-                    circle.fillColor = unselectedCircleColor
-                    circle.strokeColor = UIColor.white
-                    circle.strokeWidth = 3
-                    circle.map = self.mapView
-                    
-                    self.markerPairs[marker] = circle
+                    //Show Empty View
                 }
             } else {
-                //Show Empty View
+                //Show Empty view
             }
         }
     }
@@ -89,7 +111,7 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
         self.locationManager.startUpdatingLocation()
     }
     
-
+    
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         selectedTime = marker.title
@@ -107,10 +129,10 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
     }
     
     func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
-//        for iterator in markerPairs{
-//            iterator.value.fillColor = unselectedCircleColor
-//            iterator.value.strokeColor = UIColor.white
-//        }
+        //        for iterator in markerPairs{
+        //            iterator.value.fillColor = unselectedCircleColor
+        //            iterator.value.strokeColor = UIColor.white
+        //        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

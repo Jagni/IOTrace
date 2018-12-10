@@ -13,6 +13,9 @@
 		98EE2C5E1DABE64A00B954F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98EE2C5C1DABE64A00B954F9 /* LaunchScreen.storyboard */; };
 		98EE2C611DABE70400B954F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98EE2C5F1DABE70400B954F9 /* Main.storyboard */; };
 		AC30331A1E38020600D43D5B /* ApplicationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3033191E38020600D43D5B /* ApplicationError.swift */; };
+		BE8A3BCC21BE02AF00507DD6 /* DateControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8A3BCB21BE02AE00507DD6 /* DateControllerDelegate.swift */; };
+		BE8A3BD821BE0CE400507DD6 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8A3BD221BE0CE400507DD6 /* RoundView.swift */; };
+		BE8A3BD921BE0CE400507DD6 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8A3BD421BE0CE400507DD6 /* UIViewExtensions.swift */; };
 		BEB9061921BAF482003250AF /* MainContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9061821BAF482003250AF /* MainContainerController.swift */; };
 		BEB9061B21BAF4DE003250AF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9061A21BAF4DE003250AF /* MapViewController.swift */; };
 		BEB9061E21BAF53D003250AF /* DateAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9061D21BAF53D003250AF /* DateAggregator.swift */; };
@@ -59,6 +62,9 @@
 		98EE2C5D1DABE64A00B954F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = IOTrace/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		98EE2C601DABE70400B954F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = IOTrace/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		AC3033191E38020600D43D5B /* ApplicationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationError.swift; sourceTree = "<group>"; };
+		BE8A3BCB21BE02AE00507DD6 /* DateControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateControllerDelegate.swift; sourceTree = "<group>"; };
+		BE8A3BD221BE0CE400507DD6 /* RoundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
+		BE8A3BD421BE0CE400507DD6 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		BEB9061821BAF482003250AF /* MainContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerController.swift; sourceTree = "<group>"; };
 		BEB9061A21BAF4DE003250AF /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		BEB9061D21BAF53D003250AF /* DateAggregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAggregator.swift; sourceTree = "<group>"; };
@@ -165,12 +171,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		BE8A3BCF21BE0CE400507DD6 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				BE8A3BD221BE0CE400507DD6 /* RoundView.swift */,
+				BE8A3BD421BE0CE400507DD6 /* UIViewExtensions.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
 		BEB9061721BAF46C003250AF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				BEB9061821BAF482003250AF /* MainContainerController.swift */,
 				BEB9061A21BAF4DE003250AF /* MapViewController.swift */,
 				BEB9063921BDDB7E003250AF /* DateCollectionController.swift */,
+				BE8A3BCB21BE02AE00507DD6 /* DateControllerDelegate.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -226,6 +242,7 @@
 		BEB9063121BDBC17003250AF /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				BE8A3BCF21BE0CE400507DD6 /* Custom Views */,
 				98EE2C521DABCD9E00B954F9 /* Assets.xcassets */,
 				BEB9063221BDBC23003250AF /* Colors.swift */,
 				BEB9063721BDC60A003250AF /* FortalezaLocation.gpx */,
@@ -485,6 +502,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE8A3BCC21BE02AF00507DD6 /* DateControllerDelegate.swift in Sources */,
+				BE8A3BD921BE0CE400507DD6 /* UIViewExtensions.swift in Sources */,
 				BEB9063521BDBDED003250AF /* LocationInterval.swift in Sources */,
 				E3D187F0202CB90100E41D1D /* CloudantViewModel.swift in Sources */,
 				BEB9063321BDBC23003250AF /* Colors.swift in Sources */,
@@ -492,6 +511,7 @@
 				AC30331A1E38020600D43D5B /* ApplicationError.swift in Sources */,
 				BEB9062821BB17A4003250AF /* Credentials.swift in Sources */,
 				BEB9062121BAF55E003250AF /* IOTPEvent.swift in Sources */,
+				BE8A3BD821BE0CE400507DD6 /* RoundView.swift in Sources */,
 				BEB9063A21BDDB7E003250AF /* DateCollectionController.swift in Sources */,
 				BEB9062521BAF696003250AF /* LuminanceEvent.swift in Sources */,
 				BEB9061E21BAF53D003250AF /* DateAggregator.swift in Sources */,

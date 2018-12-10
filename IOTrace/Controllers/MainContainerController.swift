@@ -11,14 +11,63 @@ import UIKit
 import CocoaMQTT
 import SwiftyJSON
 
-class MainContainerController: UIViewController {
+var detailed = false
+
+class MainContainerController: UIViewController, DateControllerDelegate {
+    
+    func didChangeIndex(_ index: IndexPath) {
+        currentDate = self.client?.dateAggregations[index.item]
+        self.reloadSubviews()
+        self.mapController.moveToMarker()
+    }
     
     // Logger
     // Cloudant Driver
     var client: CloudantViewModel?
-    var mapController: MapViewController!
-    var dateController: DateCollectionController!
+    weak var mapController: MapViewController!
+    weak var dateController: DateCollectionController!
+    var currentDate: DateAggregator?
+    @IBOutlet weak var graphView: UIView!
     
+    @IBOutlet weak var detailButton: UIButton!
+    
+    @IBAction func didTapDetail(_ sender: Any) {
+        detailed = !detailed
+        if detailed{
+            detailButton.setTitle("Menos Detalhes", for: .normal)
+        } else {
+            detailButton.setTitle("Mais Detalhes", for: .normal)
+        }
+        reloadMap()
+        animateGraph()
+    }
+    
+    func animateGraph(){
+        UIView.animate(withDuration: 0.25) {
+            self.graphView.alpha = detailed ? 1 : 0
+            self.mapController.setDetailed(detailed)
+            self.mapController.view.layoutIfNeeded()
+        }
+    }
+    
+    func reloadSubviews(){
+        if let aggregator = self.client?.dateAggregations.first {
+            if currentDate == nil {
+                currentDate = aggregator
+            }
+        }
+        reloadMap()
+        reloadDateController()
+    }
+    
+    func reloadMap(){
+        self.mapController.loadMarkers(dateAggregator: currentDate, detailed: detailed)
+    }
+    
+    func reloadDateController(){
+        self.dateController.reloadDates(newDates: self.client?.dateAggregations, detailed: detailed)
+    }
+
     override func viewDidLoad() {
         
         // Register observer
@@ -44,6 +93,7 @@ class MainContainerController: UIViewController {
         if segue.identifier == "date" {
             let controller = segue.destination as! DateCollectionController
             self.dateController = controller
+            self.dateController.delegate = self
         }
         self.client?.retrieveItems()
 
@@ -93,10 +143,7 @@ extension MainContainerController: CloudantDataReceiver {
     
     // Callback method to reload the tableview when more data is available
     func didRecieveItems() {
-        if let aggregator = self.client?.dateAggregations.first {
-            self.mapController.loadMarkers(aggregator: aggregator, detailed: true)
-        }
-        self.dateController.reloadDates(newDates: self.client?.dateAggregations, detailed: true)
+        reloadSubviews()
     }
     
     // Display alert error

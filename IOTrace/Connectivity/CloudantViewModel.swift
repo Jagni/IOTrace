@@ -31,7 +31,7 @@ class CloudantViewModel {
     private var luminanceStartKey: String?
     
     // Number of documents to retrieve at a time
-    private let block: Int = 100
+    private let block: Int = 50
     
     // Indicates whether the view model has been configured
     private var isConfigured: Bool = false
@@ -154,7 +154,8 @@ extension CloudantViewModel {
         // Append path and query Items
         queryURL.path = "/" + db.name + "/_design/iotp/_view/locations-byDate"
         var items = [ URLQueryItem(name: "include_docs", value: "true"),
-                      URLQueryItem(name: "limit", value: String(block))
+                      URLQueryItem(name: "limit", value: String(block)),
+                      URLQueryItem(name: "descending", value: "true")
         ]
         
         if let key = locationStartKey {
@@ -177,7 +178,9 @@ extension CloudantViewModel {
             
             for item in response["rows"].arrayValue {
                 let location = LocationEvent(json: item["doc"])
+                if location.latitude != 0 && location.longitude != 0{
                 self.addLocation(location)
+                }
             }
             
             if let item = response["rows"].arrayValue.last {
@@ -188,9 +191,11 @@ extension CloudantViewModel {
                 self.DBIndex += 1
                 if self.DBIndex < self.databases!.count {
                     self.locationStartKey = nil
+                    self.delegate?.didRecieveItems()
                     self.retrieveItems()
                 }
             } else {
+                self.delegate?.didRecieveItems()
                 self.retrieveItems()
             }
     
@@ -212,6 +217,7 @@ extension CloudantViewModel {
         _ = aggregation.appendLocation(location)
         self.dateAggregations.append(aggregation)
         self.dateAggregations.sort()
+        self.dateAggregations.reverse()
     }
     
     // Get the first DB name from Cloudant that does not start with a _. Admin permissions are required for this method to work

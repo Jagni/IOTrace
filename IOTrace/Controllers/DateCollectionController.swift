@@ -12,6 +12,7 @@ import GoogleMaps
 class DateCollectionController: UICollectionViewController {
     var dates = [DateAggregator]()
     var detailed = false
+    var delegate : DateControllerDelegate?
     
     func reloadDates(newDates: [DateAggregator]?, detailed: Bool){
         DispatchQueue.main.async {
@@ -23,6 +24,11 @@ class DateCollectionController: UICollectionViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let initialPinchPoint = CGPoint(x: self.collectionView!.center.x + self.collectionView!.contentOffset.x, y: self.collectionView!.center.y + self.collectionView!.contentOffset.y)
+        self.delegate?.didChangeIndex(self.collectionView!.indexPathForItem(at: initialPinchPoint)!)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

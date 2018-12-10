@@ -11,20 +11,12 @@ import CoreLocation
 
 class DateAggregator : Comparable {
     var date : String?
-
+    var compareDate : Date?
     var intervals = [LocationInterval]()
     var luminances = [LuminanceEvent]()
     
     static func < (lhs: DateAggregator, rhs: DateAggregator) -> Bool {
-        if let lhsDate = lhs.date {
-            if let rhsDate = rhs.date {
-                return lhsDate < rhsDate
-            } else {
-                return true
-            }
-        } else {
-            return false
-        }
+        return lhs.compareDate! < rhs.compareDate!
     }
     
     static func == (lhs: DateAggregator, rhs: DateAggregator) -> Bool {
@@ -50,6 +42,7 @@ class DateAggregator : Comparable {
         
         if self.date == nil {
             self.date = location.dateString
+            self.compareDate = location.date
         }
         interval.date = self.date
         self.intervals.append(interval)
