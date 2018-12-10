@@ -23,6 +23,22 @@ class DateAggregator : Comparable {
         return lhs.date == rhs.date
     }
     
+    func appendLuminance(_ luminance: LuminanceEvent) -> Bool{
+        if self.date != nil {
+            if luminance.dateString != self.date {
+                return false
+            } else {
+                luminances.insert(luminance, at: 0)
+                return true
+            }
+        } else {
+            luminances.insert(luminance, at: 0)
+            self.date = luminance.dateString
+            self.compareDate = luminance.date
+            return true
+        }
+    }
+    
     func appendLocation(_ location: LocationEvent) -> Bool{
         if self.date != nil && location.dateString != self.date {
             return false
@@ -47,6 +63,6 @@ class DateAggregator : Comparable {
         interval.date = self.date
         self.intervals.append(interval)
         return true
-    
+        
     }
 }

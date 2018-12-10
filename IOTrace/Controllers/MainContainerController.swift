@@ -13,8 +13,7 @@ import SwiftyJSON
 
 var detailed = false
 
-class MainContainerController: UIViewController, DateControllerDelegate {
-    
+class MainContainerController: UIViewController, DateControllerDelegate, MapControllerDelegate {
     func didChangeIndex(_ index: IndexPath) {
         currentDate = self.client?.dateAggregations[index.item]
         self.reloadSubviews()
@@ -26,23 +25,28 @@ class MainContainerController: UIViewController, DateControllerDelegate {
     var client: CloudantViewModel?
     weak var mapController: MapViewController!
     weak var dateController: DateCollectionController!
+    weak var graphController: LuminanceGraphController!
     var currentDate: DateAggregator?
     @IBOutlet weak var graphView: UIView!
+    @IBOutlet weak var loadingView: UIView!
     
     @IBOutlet weak var detailButton: UIButton!
     
     @IBAction func didTapDetail(_ sender: Any) {
         detailed = !detailed
         if detailed{
-            detailButton.setTitle("Menos Detalhes", for: .normal)
+            detailButton.setTitle("- Detalhes", for: .normal)
+            detailButton.backgroundColor = textColor
         } else {
-            detailButton.setTitle("Mais Detalhes", for: .normal)
+            detailButton.setTitle("+ Detalhes", for: .normal)
+            detailButton.backgroundColor = detailButton.tintColor
         }
         reloadMap()
         animateGraph()
     }
     
     func animateGraph(){
+        graphController.setLuminances(luminances: currentDate?.luminances)
         UIView.animate(withDuration: 0.25) {
             self.graphView.alpha = detailed ? 1 : 0
             self.mapController.setDetailed(detailed)
@@ -54,10 +58,21 @@ class MainContainerController: UIViewController, DateControllerDelegate {
         if let aggregator = self.client?.dateAggregations.first {
             if currentDate == nil {
                 currentDate = aggregator
+                DispatchQueue.main.sync {
+                    UIView.animate(withDuration: 0.25) {
+                        self.detailButton.alpha = 0.7
+                        self.loadingView.alpha = 0
+                    }
+                }
+                
             }
         }
         reloadMap()
         reloadDateController()
+    }
+    
+    func didSelectMarker(location: LocationEvent) {
+        self.graphController.scrollTo(location)
     }
     
     func reloadMap(){
@@ -67,7 +82,7 @@ class MainContainerController: UIViewController, DateControllerDelegate {
     func reloadDateController(){
         self.dateController.reloadDates(newDates: self.client?.dateAggregations, detailed: detailed)
     }
-
+    
     override func viewDidLoad() {
         
         // Register observer
@@ -89,14 +104,19 @@ class MainContainerController: UIViewController, DateControllerDelegate {
         if segue.identifier == "map" {
             let controller = segue.destination as! MapViewController
             self.mapController = controller
+            self.mapController.delegate = self
         }
         if segue.identifier == "date" {
             let controller = segue.destination as! DateCollectionController
             self.dateController = controller
             self.dateController.delegate = self
         }
+        if segue.identifier == "graph" {
+            let controller = segue.destination as! LuminanceGraphController
+            self.graphController = controller
+        }
         self.client?.retrieveItems()
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -142,7 +162,11 @@ class MainContainerController: UIViewController, DateControllerDelegate {
 extension MainContainerController: CloudantDataReceiver {
     
     // Callback method to reload the tableview when more data is available
-    func didRecieveItems() {
+    func didReceiveLocations() {
+        reloadSubviews()
+    }
+    
+    func didReceiveLuminances() {
         reloadSubviews()
     }
     
@@ -185,7 +209,7 @@ extension MainContainerController : CocoaMQTTDelegate {
         }
         let locationTopic = "iot-2/type/\(trackedDevice.type)/id/\(trackedDevice.id)/evt/location/fmt/json"
         let lostCommand = "iot-2/type/\(trackedDevice.type)/id/\(trackedDevice.id)/cmd/lost/fmt/json"
-
+        
         switch message.topic {
         case locationTopic:
             //ObjectStorage

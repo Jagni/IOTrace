@@ -11,6 +11,7 @@ target 'IOTrace' do
     pod 'GoogleMaps'
     pod 'GooglePlaces'
     pod 'CocoaMQTT'
+    pod 'ScrollableGraphView'
     #
     # Comment this line if you're not using Swift and don't want to use dynamic frameworks
     use_frameworks!

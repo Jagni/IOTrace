@@ -12,6 +12,7 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (2.7.0):
     - GoogleMaps/Base (= 2.7.0)
+  - ScrollableGraphView (4.0.6)
   - SwiftCloudant (0.8.1-SNAPSHOT)
   - SwiftDate (5.0.13)
   - SwiftSpinner (1.5.0)
@@ -23,6 +24,7 @@ DEPENDENCIES:
   - CocoaMQTT
   - GoogleMaps
   - GooglePlaces
+  - ScrollableGraphView
   - SwiftCloudant (from `https://github.com/cloudant/swift-cloudant.git`)
   - SwiftDate
   - SwiftSpinner (= 1.5)
@@ -37,6 +39,7 @@ SPEC REPOS:
     - CocoaMQTT
     - GoogleMaps
     - GooglePlaces
+    - ScrollableGraphView
     - SwiftDate
     - SwiftSpinner
     - SwiftyJSON
@@ -58,12 +61,13 @@ SPEC CHECKSUMS:
   CocoaMQTT: b506d38ad3bbe1c55a4f8ee8c9fd02c35da1a7d8
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
+  ScrollableGraphView: 4af35d4ea9ecdec665d34a74da51da161ddff8ac
   SwiftCloudant: ccd1e8aaf92634b6782532467e8d270391d58eec
   SwiftDate: f4aea5fa9dee812485f34041121a4cbde01b0dee
   SwiftSpinner: 4c058c7a1d6b444dd2e1d70988ead40783097133
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   UPCarouselFlowLayout: 4c7d2c43a10ebb1597bde502a53699d378341dad
 
-PODFILE CHECKSUM: cc34c3028d5ae3e39235a21be982d5dcbd896ed8
+PODFILE CHECKSUM: fbd9715feab85b484fe36996079a57732adc0c94
 
 COCOAPODS: 1.5.3

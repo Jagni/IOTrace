@@ -13,7 +13,8 @@ import SwiftyJSON
 
 /// Protocol defining a data receiver
 protocol CloudantDataReceiver: class {
-    func didRecieveItems()
+    func didReceiveLocations()
+    func didReceiveLuminances()
     func showError(_ error: ApplicationError)
 }
 
@@ -31,7 +32,7 @@ class CloudantViewModel {
     private var luminanceStartKey: String?
     
     // Number of documents to retrieve at a time
-    private let block: Int = 50
+    private let block: Int = 200
     
     // Indicates whether the view model has been configured
     private var isConfigured: Bool = false
@@ -44,10 +45,20 @@ class CloudantViewModel {
     
     //Cloudant avaiable databases
     private var databases : [CloudantDB]?
-    private var DBIndex = 0
+    private var locationDBIndex = 0
+    private var luminanceDBIndex = 0
     
-    private var currentDB : CloudantDB? {
-        return databases?[DBIndex]
+    private var currentLocationDB : CloudantDB? {
+        return databases?[locationDBIndex]
+    }
+    private var currentLuminanceDB : CloudantDB? {
+        if let dbs = databases{
+            if luminanceDBIndex < dbs.count {
+                return dbs[luminanceDBIndex]
+            }
+            return nil
+        }
+        return nil
     }
     
     // Cloudant Endpoint
@@ -85,6 +96,7 @@ class CloudantViewModel {
         
         isLoading = true
         getLocations()
+        getLuminances()
     }
     
     // Number of items in dateAggregations
@@ -132,6 +144,87 @@ class CloudantViewModel {
 
 /// Extension for database requests
 extension CloudantViewModel {
+    fileprivate func getLuminances() {
+        
+        logger.debug(message: "Retrieving documents")
+        
+        // Ensure we have a database
+        guard let db = currentLuminanceDB else {
+            self.delegate?.showError(.invalidDatabase)
+            return
+        }
+        
+        // Convert url to URLComponents
+        guard var queryURL = URLComponents(string: cloudantURL.absoluteString) else {
+            logger.error(message: "Could not create URLComponents from cloudantURL")
+            self.delegate?.showError(.error("Unable to parse url"))
+            return
+        }
+        
+        // Append path and query Items
+        queryURL.path = "/" + db.name + "/_design/iotp/_view/luminances-byDate"
+        var items = [ URLQueryItem(name: "include_docs", value: "true"),
+                      URLQueryItem(name: "limit", value: String(block)),
+                      URLQueryItem(name: "descending", value: "true")
+        ]
+        
+        if let key = luminanceStartKey {
+            items.append(URLQueryItem(name: "startkey", value: "\"\(key)\""))
+            items.append(URLQueryItem(name: "skip", value: String(1)))
+        }
+        
+        queryURL.queryItems = items
+        
+        // Convert back to URL
+        guard let url = queryURL.url else {
+            logger.error(message: "Could not create url string from URLComponents")
+            self.delegate?.showError(.error("Unable to parse url"))
+            return
+        }
+        
+        
+        request(url: url) { data in
+            self.isLoading = false
+            let response = JSON(data)
+            
+            for item in response["rows"].arrayValue {
+                let luminance = LuminanceEvent(json: item["doc"])
+                self.addLuminance(luminance)
+            }
+            
+            if let item = response["rows"].arrayValue.last {
+                self.luminanceStartKey = item["key"].stringValue
+            }
+            
+            if response["rows"].arrayValue.count == 0 {
+                self.delegate?.didReceiveLuminances()
+                self.luminanceDBIndex += 1
+                self.luminanceStartKey = nil
+                self.getLuminances()
+            } else {
+                self.delegate?.didReceiveLuminances()
+                self.getLuminances()
+            }
+            
+        }
+    }
+    
+    func addLuminance(_ luminanceEvent : LuminanceEvent){
+        var added = false
+        
+        for dateAggregation in self.dateAggregations {
+            added = dateAggregation.appendLuminance(luminanceEvent)
+            if added {
+                return
+            }
+        }
+        
+        let aggregation = DateAggregator()
+        _ = aggregation.appendLuminance(luminanceEvent)
+        self.dateAggregations.append(aggregation)
+        self.dateAggregations.sort()
+        self.dateAggregations.reverse()
+    }
     
     // Get items from Cloudant
     fileprivate func getLocations() {
@@ -139,7 +232,7 @@ extension CloudantViewModel {
         logger.debug(message: "Retrieving documents")
         
         // Ensure we have a database
-        guard let db = currentDB else {
+        guard let db = currentLocationDB else {
             self.delegate?.showError(.invalidDatabase)
             return
         }
@@ -179,7 +272,7 @@ extension CloudantViewModel {
             for item in response["rows"].arrayValue {
                 let location = LocationEvent(json: item["doc"])
                 if location.latitude != 0 && location.longitude != 0{
-                self.addLocation(location)
+                    self.addLocation(location)
                 }
             }
             
@@ -187,19 +280,18 @@ extension CloudantViewModel {
                 self.locationStartKey = item["key"].stringValue
             }
             
-            if response["rows"].arrayValue.count < self.block {
-                self.DBIndex += 1
-                if self.DBIndex < self.databases!.count {
+            if response["rows"].arrayValue.count == 0 {
+                self.delegate?.didReceiveLocations()
+                self.locationDBIndex += 1
+                if self.locationDBIndex < self.databases!.count {
                     self.locationStartKey = nil
-                    self.delegate?.didRecieveItems()
-                    self.retrieveItems()
+                    self.getLocations()
                 }
             } else {
-                self.delegate?.didRecieveItems()
-                self.retrieveItems()
+                self.delegate?.didReceiveLocations()
+                self.getLocations()
             }
-    
-            self.delegate?.didRecieveItems()
+            
         }
     }
     
@@ -212,6 +304,7 @@ extension CloudantViewModel {
                 return
             }
         }
+        
         
         let aggregation = DateAggregator()
         _ = aggregation.appendLocation(location)
