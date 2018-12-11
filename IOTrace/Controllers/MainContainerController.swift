@@ -23,8 +23,7 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
                 self.client?.getEvents()
             }
             self.currentDate = chosenDate
-            self.reloadMap()
-            self.mapController.moveToMarker()
+            self.reloadMap(move: true)
         }
         }
     }
@@ -67,28 +66,9 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
         UIView.animate(withDuration: 0.25, animations: {
             self.graphView.alpha = detailed ? 1 : 0
         }) { (ended) in
-            self.reloadMap()
+            self.reloadMap(move: false)
         }
             }
-        }
-    }
-    
-    func reloadSubviews(){
-        DispatchQueue.global(qos: .background).async{
-        if let aggregator = self.client?.dateAggregations.first {
-            if self.currentDate == nil {
-                self.currentDate = aggregator
-                DispatchQueue.main.sync {
-                    UIView.animate(withDuration: 0.25) {
-                        self.detailButton.alpha = 0.7
-                        self.loadingView.alpha = 0
-                    }
-                }
-                
-            }
-        }
-            self.reloadMap()
-            self.reloadDateController()
         }
     }
     
@@ -98,8 +78,8 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
         }
     }
     
-    func reloadMap(){
-        self.mapController.loadMarkers(dateAggregator: currentDate, detailed: detailed)
+    func reloadMap(move: Bool){
+        self.mapController.loadMarkers(dateAggregator: currentDate, detailed: detailed, move: move)
     }
     
     func reloadDateController(){
@@ -196,7 +176,7 @@ extension MainContainerController: CloudantDataReceiver {
         
         if let aggregation = currentDate{
             if !client!.dateAggregations.contains(aggregation){
-                reloadMap()
+                reloadMap(move: false)
             }
             reloadDateController()
         } else {
@@ -209,7 +189,7 @@ extension MainContainerController: CloudantDataReceiver {
                     }
                 }
                 reloadDateController()
-                reloadMap()
+                reloadMap(move: true)
             }
             
         }
@@ -218,11 +198,7 @@ extension MainContainerController: CloudantDataReceiver {
     func didReceiveLuminances() {
         
         if let aggregation = currentDate{
-            if !client!.dateAggregations.contains(aggregation){
-                if detailed {
                     animateGraph()
-                }
-            }
             reloadDateController()
 
         } else {

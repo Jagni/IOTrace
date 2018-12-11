@@ -57,7 +57,7 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
         }
     }
     
-    func loadMarkers(dateAggregator: DateAggregator?, detailed: Bool){
+    func loadMarkers(dateAggregator: DateAggregator?, detailed: Bool, move: Bool){
         DispatchQueue.global(qos: .background).async {
             
         DispatchQueue.main.sync {
@@ -119,6 +119,9 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
                 }
             } else {
                 //Show Empty view
+            }
+            if move{
+            self.moveToMarker()
             }
         }
     }

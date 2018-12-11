@@ -55,11 +55,9 @@ class LuminanceGraphController: UIViewController, ScrollableGraphViewDataSource 
         if let index = luminances.firstIndex(where: { (luminance) -> Bool in
             luminance.date >= location.date
         }) {
-            DispatchQueue.global(qos: .default).async{
                 DispatchQueue.main.sync{
                     let point = self.graphView.dataPointSpacing * CGFloat(index) - (self.graphView.bounds.width/2)
-            self.graphView.setContentOffset(CGPoint(x: point, y: 0), animated: true)
-                }
+            self.graphView.setContentOffset(CGPoint(x: point, y: 0), animated: false)
                 }
             }
     }
