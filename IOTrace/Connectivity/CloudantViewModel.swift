@@ -27,11 +27,12 @@ class CloudantViewModel {
     var dateAggregations: [DateAggregator] = []
     
     // The key to start retrieving data from
+    private var startKey: String?
     private var locationStartKey: String?
     private var luminanceStartKey: String?
     
     // Number of documents to retrieve at a time
-    private let block: Int = 200
+    private let block: Int = 50
     
     // Indicates whether the view model has been configured
     private var isConfigured: Bool = false
@@ -44,11 +45,21 @@ class CloudantViewModel {
     
     //Cloudant avaiable databases
     private var databases : [CloudantDB]?
+    private var DBIndex = 0
     private var locationDBIndex = 0
     private var luminanceDBIndex = 0
     
     private var currentLocationDB : CloudantDB? {
         return databases?[locationDBIndex]
+    }
+    private var currentDB : CloudantDB? {
+        if let dbs = databases{
+            if DBIndex < dbs.count {
+                return dbs[DBIndex]
+            }
+            return nil
+        }
+        return nil
     }
     private var currentLuminanceDB : CloudantDB? {
         if let dbs = databases{
@@ -94,8 +105,9 @@ class CloudantViewModel {
         }
         
         isLoading = true
-        getLocations()
-        getLuminances()
+        getEvents()
+        //getLocations()
+        //getLuminances()
     }
     
     // Number of items in dateAggregations
@@ -143,19 +155,96 @@ class CloudantViewModel {
 
 /// Extension for database requests
 extension CloudantViewModel {
+    func getEvents() {
+        DispatchQueue.global(qos: .background).async {
+            self.logger.debug(message: "Retrieving documents")
+            
+            // Ensure we have a database
+            guard let db = self.currentDB else {
+                self.delegate?.showError(.invalidDatabase)
+                return
+            }
+            
+            // Convert url to URLComponents
+            guard var queryURL = URLComponents(string: self.cloudantURL.absoluteString) else {
+                self.logger.error(message: "Could not create URLComponents from cloudantURL")
+                self.delegate?.showError(.error("Unable to parse url"))
+                return
+            }
+            
+            // Append path and query Items
+            queryURL.path = "/" + db.name + "/_design/iotp/_view/by-date"
+            var items = [ URLQueryItem(name: "include_docs", value: "true"),
+                          URLQueryItem(name: "limit", value: String(self.block)),
+                          URLQueryItem(name: "descending", value: "true")
+            ]
+            
+            if let key = self.startKey {
+                items.append(URLQueryItem(name: "startkey", value: "\"\(key)\""))
+                items.append(URLQueryItem(name: "skip", value: String(1)))
+            }
+            
+            queryURL.queryItems = items
+            
+            // Convert back to URL
+            guard let url = queryURL.url else {
+                self.logger.error(message: "Could not create url string from URLComponents")
+                self.delegate?.showError(.error("Unable to parse url"))
+                return
+            }
+            
+            
+            self.request(url: url) { data in
+                self.isLoading = false
+                let response = JSON(data)
+                
+                let daysCount = self.dateAggregations.count
+                for item in response["rows"].arrayValue {
+                    if item["doc"]["eventType"].stringValue == "luminance"{
+                        let luminance = LuminanceEvent(json: item["doc"])
+                        self.addLuminance(luminance)
+                    } else {
+                        let location = LocationEvent(json: item["doc"])
+                        if location.latitude != 0 && location.longitude != 0{
+                            self.addLocation(location)
+                        }
+                    }
+                }
+                
+                if let item = response["rows"].arrayValue.last {
+                    self.startKey = item["key"].stringValue
+                }
+                
+                if response["rows"].arrayValue.count == 0 {
+                    self.delegate?.didReceiveLuminances()
+                    self.delegate?.didReceiveLocations()
+                    self.DBIndex += 1
+                    self.startKey = nil
+                        self.getEvents()
+                } else {
+                    self.delegate?.didReceiveLuminances()
+                    self.delegate?.didReceiveLocations()
+                    if daysCount == self.dateAggregations.count || self.dateAggregations.count == 1{
+                        self.getEvents()
+                    }
+                }
+                
+            }
+        }
+    }
     fileprivate func getLuminances() {
-        
-        logger.debug(message: "Retrieving documents")
+        DispatchQueue.global(qos: .background).async {
+            self.logger.debug(message: "Retrieving documents")
         
         // Ensure we have a database
-        guard let db = currentLuminanceDB else {
+            guard let db = self.currentLuminanceDB else {
             self.delegate?.showError(.invalidDatabase)
             return
         }
         
         // Convert url to URLComponents
-        guard var queryURL = URLComponents(string: cloudantURL.absoluteString) else {
-            logger.error(message: "Could not create URLComponents from cloudantURL")
+            guard var queryURL = URLComponents(string: self.cloudantURL.absoluteString) else {
+            self.logger.error(message: "Could not create URLComponents from cloudantURL")
             self.delegate?.showError(.error("Unable to parse url"))
             return
         }
@@ -163,11 +252,11 @@ extension CloudantViewModel {
         // Append path and query Items
         queryURL.path = "/" + db.name + "/_design/iotp/_view/luminances-byDate"
         var items = [ URLQueryItem(name: "include_docs", value: "true"),
-                      URLQueryItem(name: "limit", value: String(block)),
+                      URLQueryItem(name: "limit", value: String(self.block)),
                       URLQueryItem(name: "descending", value: "true")
         ]
         
-        if let key = luminanceStartKey {
+            if let key = self.luminanceStartKey {
             items.append(URLQueryItem(name: "startkey", value: "\"\(key)\""))
             items.append(URLQueryItem(name: "skip", value: String(1)))
         }
@@ -176,13 +265,13 @@ extension CloudantViewModel {
         
         // Convert back to URL
         guard let url = queryURL.url else {
-            logger.error(message: "Could not create url string from URLComponents")
+            self.logger.error(message: "Could not create url string from URLComponents")
             self.delegate?.showError(.error("Unable to parse url"))
             return
         }
         
         
-        request(url: url) { data in
+            self.request(url: url) { data in
             self.isLoading = false
             let response = JSON(data)
             
@@ -206,6 +295,7 @@ extension CloudantViewModel {
             }
             
         }
+        }
     }
     
     func addLuminance(_ luminanceEvent : LuminanceEvent){
@@ -227,18 +317,18 @@ extension CloudantViewModel {
     
     // Get items from Cloudant
     fileprivate func getLocations() {
-        
-        logger.debug(message: "Retrieving documents")
+        DispatchQueue.global(qos: .background).async{
+            self.logger.debug(message: "Retrieving documents")
         
         // Ensure we have a database
-        guard let db = currentLocationDB else {
+            guard let db = self.currentLocationDB else {
             self.delegate?.showError(.invalidDatabase)
             return
         }
         
         // Convert url to URLComponents
-        guard var queryURL = URLComponents(string: cloudantURL.absoluteString) else {
-            logger.error(message: "Could not create URLComponents from cloudantURL")
+            guard var queryURL = URLComponents(string: self.cloudantURL.absoluteString) else {
+                self.logger.error(message: "Could not create URLComponents from cloudantURL")
             self.delegate?.showError(.error("Unable to parse url"))
             return
         }
@@ -246,11 +336,11 @@ extension CloudantViewModel {
         // Append path and query Items
         queryURL.path = "/" + db.name + "/_design/iotp/_view/locations-byDate"
         var items = [ URLQueryItem(name: "include_docs", value: "true"),
-                      URLQueryItem(name: "limit", value: String(block)),
+                      URLQueryItem(name: "limit", value: String(self.block)),
                       URLQueryItem(name: "descending", value: "true")
         ]
         
-        if let key = locationStartKey {
+            if let key = self.locationStartKey {
             items.append(URLQueryItem(name: "startkey", value: "\"\(key)\""))
             items.append(URLQueryItem(name: "skip", value: String(1)))
         }
@@ -259,12 +349,12 @@ extension CloudantViewModel {
         
         // Convert back to URL
         guard let url = queryURL.url else {
-            logger.error(message: "Could not create url string from URLComponents")
+            self.logger.error(message: "Could not create url string from URLComponents")
             self.delegate?.showError(.error("Unable to parse url"))
             return
         }
         
-        request(url: url) { data in
+            self.request(url: url) { data in
             self.isLoading = false
             let response = JSON(data)
             
@@ -282,15 +372,14 @@ extension CloudantViewModel {
             if response["rows"].arrayValue.count == 0 {
                 self.delegate?.didReceiveLocations()
                 self.locationDBIndex += 1
-                if self.locationDBIndex < self.databases!.count {
                     self.locationStartKey = nil
                     self.getLocations()
-                }
             } else {
                 self.delegate?.didReceiveLocations()
                 self.getLocations()
             }
             
+        }
         }
     }
     

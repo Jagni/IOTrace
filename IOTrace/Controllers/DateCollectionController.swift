@@ -11,14 +11,43 @@ import GoogleMaps
 
 class DateCollectionController: UICollectionViewController {
     var dates = [DateAggregator]()
-    var detailed = false
     var delegate : DateControllerDelegate?
+    var isReady = false
     
-    func reloadDates(newDates: [DateAggregator]?, detailed: Bool){
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.isReady = true
+    }
+    func reloadDates(newDates: [DateAggregator]?){
+        if isReady{
         DispatchQueue.main.async {
-            self.dates = newDates ?? [DateAggregator]()
-            self.detailed = detailed
-            self.collectionView?.reloadSections([0])
+            
+            self.collectionView.performBatchUpdates({
+                if self.dates.count == 0 {
+                    var indexes = [IndexPath]()
+                    for i in 0..<newDates!.count{
+                        self.dates.append(newDates![i])
+                        indexes.append(IndexPath(item: i, section: 0))
+                    }
+                    self.collectionView.insertItems(at: indexes)
+                }
+                else if newDates!.count == self.dates.count {
+                    self.dates[self.dates.count - 1] = newDates!.last!
+                    self.collectionView.reloadItems(at: [IndexPath(item: self.dates.count - 1, section: 0)])
+                } else {
+                    
+                    self.dates.append(newDates!.last!)
+                    self.collectionView.insertItems(at: [IndexPath(item: self.dates.count-1, section: 0)])
+                    
+                    var indexes = [IndexPath]()
+                    for i in 0..<newDates!.count-1{
+                        indexes.append(IndexPath(item: i, section: 0))
+                    }
+                    self.collectionView.reloadItems(at: indexes)
+
+                }
+            }, completion: nil)
+        }
         }
     }
     
@@ -43,15 +72,16 @@ class DateCollectionController: UICollectionViewController {
         cell.locationImage.image = GMSMarker.markerImage(with: markerColor)
         cell.luminanceLabel.text = "\(aggregator.luminances.count)"
         
-        if (detailed){
+        if indexPath.item < dates.count - 1{
+            cell.checkImage.alpha = 1
+        }
+        
             var count = 0
             for interval in aggregator.intervals{
                 count += interval.locations.count
             }
             cell.locationLabel.text = "\(count)"
-        } else {
-            cell.locationLabel.text = "\(aggregator.intervals.count)"
-        }
+        
         return cell
     }
     
@@ -59,6 +89,7 @@ class DateCollectionController: UICollectionViewController {
 
 public class DateCell: UICollectionViewCell {
     @IBOutlet weak var locationImage: UIImageView!
+    @IBOutlet weak var checkImage: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var luminanceLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!

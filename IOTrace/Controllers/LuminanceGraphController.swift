@@ -55,9 +55,13 @@ class LuminanceGraphController: UIViewController, ScrollableGraphViewDataSource 
         if let index = luminances.firstIndex(where: { (luminance) -> Bool in
             luminance.date >= location.date
         }) {
-            let point = graphView.dataPointSpacing * CGFloat(index) - (self.graphView.bounds.width/2)
+            DispatchQueue.global(qos: .default).async{
+                DispatchQueue.main.sync{
+                    let point = self.graphView.dataPointSpacing * CGFloat(index) - (self.graphView.bounds.width/2)
             self.graphView.setContentOffset(CGPoint(x: point, y: 0), animated: true)
-        }
+                }
+                }
+            }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,6 +105,7 @@ class LuminanceGraphController: UIViewController, ScrollableGraphViewDataSource 
         // Setup the graph
         graphView.backgroundFillColor = UIColor.clear
         graphView.shouldAnimateOnStartup = true
+        graphView.shouldAnimateOnAdapt = true
         graphView.shouldAdaptRange = true
         graphView.dataPointSpacing = 48
         graphView.shouldRangeAlwaysStartAtZero = true
@@ -163,14 +168,14 @@ class LuminanceGraphController: UIViewController, ScrollableGraphViewDataSource 
     }
     
     func updateEmpty() {
-        UIView.animate(withDuration: 0.25, animations: {
-            if self.luminances.isEmpty {
-                self.emptyView.alpha = 1
-                self.graphView.alpha = 0
-            } else {
-                self.emptyView.alpha = 0
-                self.graphView.alpha = 1
-            }
-        })
+//        UIView.animate(withDuration: 0.25, animations: {
+//            if self.luminances.isEmpty {
+//                self.emptyView.alpha = 1
+//                self.graphView.alpha = 0
+//            } else {
+//                self.emptyView.alpha = 0
+//                self.graphView.alpha = 1
+//            }
+//        })
     }
 }

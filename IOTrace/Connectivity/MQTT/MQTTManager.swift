@@ -10,7 +10,7 @@ import Foundation
 import CocoaMQTT
 
 let mqttClient = CocoaMQTT(clientID: IOTPCredentials.clientID,
-                           host: IOTPCredentials.host, port: UInt16(IOTPCredentials.mqttPort as! Int))
+                           host: IOTPCredentials.host, port: UInt16(IOTPCredentials.mqttPort!))
 var trackedDevice = IOTPDevice()
 
 class MQTTManager {

@@ -14,12 +14,19 @@ import SwiftyJSON
 var detailed = false
 
 class MainContainerController: UIViewController, DateControllerDelegate, MapControllerDelegate {
+    
     func didChangeIndex(_ index: IndexPath) {
-        currentDate = self.client?.dateAggregations[index.item]
-        self.reloadMap()
-        self.mapController.moveToMarker()
-        animateGraph()
-
+        DispatchQueue.global(qos: .background).async {
+        let chosenDate = self.client?.dateAggregations[index.item]
+        if chosenDate != self.currentDate {
+            if index.item == self.client!.dateAggregations.count - 1 {
+                self.client?.getEvents()
+            }
+            self.currentDate = chosenDate
+            self.reloadMap()
+            self.mapController.moveToMarker()
+        }
+        }
     }
     
     // Logger
@@ -36,33 +43,41 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
     
     @IBAction func didTapDetail(_ sender: Any) {
         detailed = !detailed
+        
         if detailed{
-            detailButton.setTitle("- Detalhes", for: .normal)
-            detailButton.backgroundColor = textColor
+            self.detailButton.setTitle("- Detalhes", for: .normal)
+            self.detailButton.backgroundColor = textColor
         } else {
-            detailButton.setTitle("+ Detalhes", for: .normal)
-            detailButton.backgroundColor = detailButton.tintColor
+            self.detailButton.setTitle("+ Detalhes", for: .normal)
+            self.detailButton.backgroundColor = self.detailButton.tintColor
         }
-        reloadMap()
-        animateGraph()
+        self.animateGraph()
     }
     
     func animateGraph(){
-        DispatchQueue.main.async {
-            
-        
-        self.graphController.setLuminances(luminances: self.currentDate?.luminances)
-        self.mapController.setDetailed(detailed)
-        UIView.animate(withDuration: 0.25) {
-            self.graphView.alpha = detailed ? 1 : 0
+        DispatchQueue.global(qos: .background).async{
+        if detailed{
+            DispatchQueue.main.sync {
+                self.graphController.setLuminances(luminances: self.currentDate?.luminances)
+            }
         }
+        self.mapController.setDetailed(detailed)
+            DispatchQueue.main.sync {
+
+        UIView.animate(withDuration: 0.25, animations: {
+            self.graphView.alpha = detailed ? 1 : 0
+        }) { (ended) in
+            self.reloadMap()
+        }
+            }
         }
     }
     
     func reloadSubviews(){
+        DispatchQueue.global(qos: .background).async{
         if let aggregator = self.client?.dateAggregations.first {
-            if currentDate == nil {
-                currentDate = aggregator
+            if self.currentDate == nil {
+                self.currentDate = aggregator
                 DispatchQueue.main.sync {
                     UIView.animate(withDuration: 0.25) {
                         self.detailButton.alpha = 0.7
@@ -72,12 +87,15 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
                 
             }
         }
-        reloadMap()
-        reloadDateController()
+            self.reloadMap()
+            self.reloadDateController()
+        }
     }
     
     func didSelectMarker(location: LocationEvent) {
+        DispatchQueue.global(qos: .background).async {
         self.graphController.scrollTo(location)
+        }
     }
     
     func reloadMap(){
@@ -85,7 +103,9 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
     }
     
     func reloadDateController(){
-        self.dateController.reloadDates(newDates: self.client?.dateAggregations, detailed: detailed)
+        DispatchQueue.main.async {
+            self.dateController.reloadDates(newDates: self.client?.dateAggregations)
+        }
     }
     
     override func viewDidLoad() {
@@ -100,6 +120,8 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
 //        mqttClient.password = IOTPCredentials.password
 //        mqttClient.keepAlive = 60
 //        mqttClient.delegate = self
+//        
+//        mqttClient.connect()
         
         // Set up Cloudant Driver
         configureCloudant()
@@ -120,11 +142,14 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
             let controller = segue.destination as! LuminanceGraphController
             self.graphController = controller
         }
-        self.client?.retrieveItems()
+        
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.client?.retrieveItems()
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -168,25 +193,65 @@ extension MainContainerController: CloudantDataReceiver {
     
     // Callback method to reload the tableview when more data is available
     func didReceiveLocations() {
-        reloadSubviews()
+        
+        if let aggregation = currentDate{
+            if !client!.dateAggregations.contains(aggregation){
+                reloadMap()
+            }
+            reloadDateController()
+        } else {
+            if let aggregator = self.client?.dateAggregations.first {
+                currentDate = aggregator
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.25) {
+                        self.detailButton.alpha = 1
+                        self.loadingView.alpha = 0
+                    }
+                }
+                reloadDateController()
+                reloadMap()
+            }
+            
+        }
     }
     
     func didReceiveLuminances() {
-        reloadSubviews()
+        
+        if let aggregation = currentDate{
+            if !client!.dateAggregations.contains(aggregation){
+                if detailed {
+                    animateGraph()
+                }
+            }
+            reloadDateController()
+
+        } else {
+            if let aggregator = self.client?.dateAggregations.first {
+                if currentDate == nil {
+                    currentDate = aggregator
+                    DispatchQueue.main.sync {
+                        UIView.animate(withDuration: 0.25) {
+                            self.detailButton.alpha = 1
+                            self.loadingView.alpha = 0
+                        }
+                    }
+                    
+                }
+            }
+            reloadDateController()
+        }
     }
     
     // Display alert error
     func showError(_ error: ApplicationError) {
         // Log Error
-        DispatchQueue.main.async {
-            if self.presentedViewController == nil {
-                // Set alert properties
-                let alert = UIAlertController(title: error.title, message: error.description, preferredStyle: .alert)
-                // Add an action to the alert
-                alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-                // Show the alert
-                self.present(alert, animated: true, completion: nil)
-            }
+        if self.presentedViewController == nil {
+            // Set alert properties
+            let alert = UIAlertController(title: error.title, message: error.description, preferredStyle: .alert)
+            // Add an action to the alert
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+            // Show the alert
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }

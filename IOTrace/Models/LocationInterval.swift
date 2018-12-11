@@ -32,7 +32,7 @@ class LocationInterval : Comparable {
     }
     
     static func == (lhs: LocationInterval, rhs: LocationInterval) -> Bool {
-        return lhs.date == rhs.date
+        return lhs.date == rhs.date && lhs.locations == rhs.locations
     }
     
     func appendLocation(_ location: LocationEvent) -> Bool{

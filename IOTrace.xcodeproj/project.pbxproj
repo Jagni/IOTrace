@@ -34,28 +34,9 @@
 		BEB9063521BDBDED003250AF /* LocationInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9063421BDBDED003250AF /* LocationInterval.swift */; };
 		BEB9063821BDC60A003250AF /* FortalezaLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = BEB9063721BDC60A003250AF /* FortalezaLocation.gpx */; };
 		BEB9063A21BDDB7E003250AF /* DateCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB9063921BDDB7E003250AF /* DateCollectionController.swift */; };
-		E3659B402034C21900601F81 /* IOTraceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3659B3F2034C21900601F81 /* IOTraceUITests.swift */; };
-		E3659B4E2034C22500601F81 /* IOTraceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3659B4D2034C22500601F81 /* IOTraceTests.swift */; };
 		E3D187F0202CB90100E41D1D /* CloudantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D187EF202CB90100E41D1D /* CloudantViewModel.swift */; };
 		E5D9E2C506F04DA1BD1035D8 /* BMSCredentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC515349498F4131BCB64321 /* BMSCredentials.plist */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E3659B422034C21900601F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 555C91A01D0F0731003E84E3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 555C91A71D0F0731003E84E3;
-			remoteInfo = IOTrace;
-		};
-		E3659B502034C22500601F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 555C91A01D0F0731003E84E3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 555C91A71D0F0731003E84E3;
-			remoteInfo = IOTrace;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1AFE8C0E5B5FC41FBA4B5EC2 /* Pods-IOTrace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOTrace.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOTrace/Pods-IOTrace.debug.xcconfig"; sourceTree = "<group>"; };
@@ -88,10 +69,8 @@
 		BEB9063721BDC60A003250AF /* FortalezaLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FortalezaLocation.gpx; sourceTree = "<group>"; };
 		BEB9063921BDDB7E003250AF /* DateCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCollectionController.swift; sourceTree = "<group>"; };
 		D08B9A7496D4B743BDD8AACD /* Pods-IOTrace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOTrace.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOTrace/Pods-IOTrace.release.xcconfig"; sourceTree = "<group>"; };
-		E3659B3D2034C21900601F81 /* IOTraceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOTraceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3659B3F2034C21900601F81 /* IOTraceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOTraceUITests.swift; sourceTree = "<group>"; };
 		E3659B412034C21900601F81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E3659B4B2034C22400601F81 /* IOTraceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOTraceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3659B4D2034C22500601F81 /* IOTraceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOTraceTests.swift; sourceTree = "<group>"; };
 		E3659B4F2034C22500601F81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3D187EF202CB90100E41D1D /* CloudantViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudantViewModel.swift; sourceTree = "<group>"; };
@@ -105,20 +84,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E6E385786F79373B9B58FBF /* Pods_IOTrace.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3659B3A2034C21900601F81 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3659B482034C22400601F81 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,8 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				555C91A81D0F0731003E84E3 /* IOTrace.app */,
-				E3659B3D2034C21900601F81 /* IOTraceUITests.xctest */,
-				E3659B4B2034C22400601F81 /* IOTraceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,42 +284,6 @@
 			productReference = 555C91A81D0F0731003E84E3 /* IOTrace.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E3659B3C2034C21900601F81 /* IOTraceUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E3659B442034C21900601F81 /* Build configuration list for PBXNativeTarget "IOTraceUITests" */;
-			buildPhases = (
-				E3659B392034C21900601F81 /* Sources */,
-				E3659B3A2034C21900601F81 /* Frameworks */,
-				E3659B3B2034C21900601F81 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E3659B432034C21900601F81 /* PBXTargetDependency */,
-			);
-			name = IOTraceUITests;
-			productName = IOTraceUITests;
-			productReference = E3659B3D2034C21900601F81 /* IOTraceUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		E3659B4A2034C22400601F81 /* IOTraceTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E3659B522034C22500601F81 /* Build configuration list for PBXNativeTarget "IOTraceTests" */;
-			buildPhases = (
-				E3659B472034C22400601F81 /* Sources */,
-				E3659B482034C22400601F81 /* Frameworks */,
-				E3659B492034C22400601F81 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E3659B512034C22500601F81 /* PBXTargetDependency */,
-			);
-			name = IOTraceTests;
-			productName = IOTraceTests;
-			productReference = E3659B4B2034C22400601F81 /* IOTraceTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -377,16 +304,6 @@
 							};
 						};
 					};
-					E3659B3C2034C21900601F81 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 555C91A71D0F0731003E84E3;
-					};
-					E3659B4A2034C22400601F81 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 555C91A71D0F0731003E84E3;
-					};
 				};
 			};
 			buildConfigurationList = 555C91A31D0F0731003E84E3 /* Build configuration list for PBXProject "IOTrace" */;
@@ -403,8 +320,6 @@
 			projectRoot = "";
 			targets = (
 				555C91A71D0F0731003E84E3 /* IOTrace */,
-				E3659B3C2034C21900601F81 /* IOTraceUITests */,
-				E3659B4A2034C22400601F81 /* IOTraceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -420,20 +335,6 @@
 				BE8A3BE321BF02A700507DD6 /* style.json in Resources */,
 				98EE2C531DABCD9E00B954F9 /* Assets.xcassets in Resources */,
 				98EE2C5E1DABE64A00B954F9 /* LaunchScreen.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3659B3B2034C21900601F81 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3659B492034C22400601F81 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,36 +447,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E3659B392034C21900601F81 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E3659B402034C21900601F81 /* IOTraceUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E3659B472034C22400601F81 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E3659B4E2034C22500601F81 /* IOTraceTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E3659B432034C21900601F81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 555C91A71D0F0731003E84E3 /* IOTrace */;
-			targetProxy = E3659B422034C21900601F81 /* PBXContainerItemProxy */;
-		};
-		E3659B512034C22500601F81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 555C91A71D0F0731003E84E3 /* IOTrace */;
-			targetProxy = E3659B502034C22500601F81 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		98EE2C5C1DABE64A00B954F9 /* LaunchScreen.storyboard */ = {
@@ -710,7 +582,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5FMB4K7553;
 				INFOPLIST_FILE = "$(SRCROOT)/IOTrace/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.IOTrace;
 				PRODUCT_NAME = IOTrace;
@@ -725,99 +597,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 5FMB4K7553;
 				INFOPLIST_FILE = "$(SRCROOT)/IOTrace/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ibm.IOTrace;
 				PRODUCT_NAME = IOTrace;
 				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		E3659B452034C21900601F81 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = IOTraceUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ibm.BluePic-iOS.IOTraceUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = IOTrace;
-			};
-			name = Debug;
-		};
-		E3659B462034C21900601F81 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = IOTraceUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ibm.BluePic-iOS.IOTraceUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = IOTrace;
-			};
-			name = Release;
-		};
-		E3659B532034C22500601F81 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = IOTraceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ibm.BluePic-iOS.IOTraceTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IOTrace.app/IOTrace";
-			};
-			name = Debug;
-		};
-		E3659B542034C22500601F81 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = IOTraceTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ibm.BluePic-iOS.IOTraceTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IOTrace.app/IOTrace";
 			};
 			name = Release;
 		};
@@ -838,24 +622,6 @@
 			buildConfigurations = (
 				555C91D11D0F0731003E84E3 /* Debug */,
 				555C91D21D0F0731003E84E3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E3659B442034C21900601F81 /* Build configuration list for PBXNativeTarget "IOTraceUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E3659B452034C21900601F81 /* Debug */,
-				E3659B462034C21900601F81 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E3659B522034C22500601F81 /* Build configuration list for PBXNativeTarget "IOTraceTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E3659B532034C22500601F81 /* Debug */,
-				E3659B542034C22500601F81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

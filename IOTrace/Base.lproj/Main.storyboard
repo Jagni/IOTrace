@@ -69,20 +69,36 @@
                                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EqF-b6-jzh">
+                                            <rect key="frame" x="132" y="8" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="D64-IE-vAm"/>
+                                                <constraint firstAttribute="height" constant="20" id="fqb-M4-Lsh"/>
+                                            </constraints>
+                                        </activityIndicatorView>
+                                        <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check" translatesAutoresizingMaskIntoConstraints="NO" id="Mfr-km-ycO">
+                                            <rect key="frame" x="132" y="8" width="20" height="20"/>
+                                        </imageView>
                                     </subviews>
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailingMargin" secondItem="EqF-b6-jzh" secondAttribute="trailing" id="2Zz-I0-Ljt"/>
+                                    <constraint firstItem="Mfr-km-ycO" firstAttribute="top" secondItem="EqF-b6-jzh" secondAttribute="top" id="5ci-lC-amX"/>
                                     <constraint firstItem="1Ua-Cw-Jjm" firstAttribute="leading" secondItem="hGb-of-vDX" secondAttribute="trailing" constant="4" id="6lu-uz-YiH"/>
                                     <constraint firstItem="hGb-of-vDX" firstAttribute="height" secondItem="IKA-Pd-wgA" secondAttribute="height" multiplier="0.2" id="ALP-66-PhQ"/>
                                     <constraint firstItem="C58-RE-sfz" firstAttribute="leading" secondItem="IKA-Pd-wgA" secondAttribute="centerX" constant="8" id="Ax1-bM-zbZ"/>
                                     <constraint firstItem="hVm-Em-XqA" firstAttribute="centerY" secondItem="C58-RE-sfz" secondAttribute="centerY" id="CWz-Pm-8wF"/>
                                     <constraint firstItem="9UP-sP-kPV" firstAttribute="centerX" secondItem="IKA-Pd-wgA" secondAttribute="centerX" id="CnG-FY-8V4"/>
                                     <constraint firstItem="hVm-Em-XqA" firstAttribute="leading" secondItem="C58-RE-sfz" secondAttribute="trailing" constant="4" id="DNn-A9-LtC"/>
+                                    <constraint firstItem="Mfr-km-ycO" firstAttribute="trailing" secondItem="EqF-b6-jzh" secondAttribute="trailing" id="EwX-zW-KsF"/>
                                     <constraint firstItem="9UP-sP-kPV" firstAttribute="bottom" secondItem="IKA-Pd-wgA" secondAttribute="centerY" id="EzV-Wd-KIx"/>
                                     <constraint firstItem="1Ua-Cw-Jjm" firstAttribute="centerY" secondItem="hGb-of-vDX" secondAttribute="centerY" id="QzP-6b-k3d"/>
                                     <constraint firstItem="C58-RE-sfz" firstAttribute="centerY" secondItem="hGb-of-vDX" secondAttribute="centerY" id="UQw-Gn-jrF"/>
+                                    <constraint firstItem="Mfr-km-ycO" firstAttribute="width" secondItem="EqF-b6-jzh" secondAttribute="width" id="WJN-yq-2Tk"/>
+                                    <constraint firstItem="Mfr-km-ycO" firstAttribute="height" secondItem="EqF-b6-jzh" secondAttribute="height" id="b04-bb-0Je"/>
                                     <constraint firstItem="C58-RE-sfz" firstAttribute="height" secondItem="IKA-Pd-wgA" secondAttribute="height" multiplier="0.2" id="bl3-Z5-M99"/>
+                                    <constraint firstItem="EqF-b6-jzh" firstAttribute="top" secondItem="IKA-Pd-wgA" secondAttribute="topMargin" id="ruT-k8-YbK"/>
                                     <constraint firstItem="hGb-of-vDX" firstAttribute="top" secondItem="IKA-Pd-wgA" secondAttribute="centerY" constant="4" id="vX8-R0-heP"/>
                                     <constraint firstItem="1Ua-Cw-Jjm" firstAttribute="trailing" secondItem="IKA-Pd-wgA" secondAttribute="centerX" constant="-8" id="z7V-um-AFj"/>
                                 </constraints>
@@ -95,10 +111,10 @@
                                         <real key="value" value="0.20000000000000001"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="2"/>
+                                        <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowVerticalOffset">
-                                        <real key="value" value="1"/>
+                                        <real key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowHorizontalOffset">
                                         <real key="value" value="0.0"/>
@@ -108,6 +124,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
+                                    <outlet property="checkImage" destination="Mfr-km-ycO" id="l7t-ms-Qk6"/>
                                     <outlet property="dateLabel" destination="9UP-sP-kPV" id="qXK-6O-PFw"/>
                                     <outlet property="locationImage" destination="hGb-of-vDX" id="8S0-2C-X92"/>
                                     <outlet property="locationLabel" destination="1Ua-Cw-Jjm" id="hIR-nr-sqd"/>
@@ -152,7 +169,7 @@
                                     <segue destination="1FO-1X-amy" kind="embed" identifier="date" id="TAQ-cN-mR2"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJ5-PU-i8z">
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJ5-PU-i8z">
                                 <rect key="frame" x="130" y="38" width="60" height="60"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AnG-Vl-Z03">
@@ -179,10 +196,10 @@
                                         <real key="value" value="0.20000000000000001"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="2"/>
+                                        <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowVerticalOffset">
-                                        <real key="value" value="1"/>
+                                        <real key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowHorizontalOffset">
                                         <real key="value" value="0.0"/>
@@ -341,6 +358,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="check" width="170" height="170"/>
         <image name="light-bulb" width="170" height="170"/>
     </resources>
 </document>

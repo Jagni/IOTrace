@@ -15,7 +15,7 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
     var delegate : MapControllerDelegate?
     var locationManager = CLLocationManager()
     var selectedTime : String?
-    var markerPairs = [GMSMarker : (LocationEvent, GMSCircle)]()
+    var markerPairs = [String : LocationEvent]()
     var mapView : GMSMapView {
         return self.view as! GMSMapView
     }
@@ -29,16 +29,16 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
         mapView.delegate = self
-        do {
-            // Set the map style by passing the URL of the local file.
-            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
-                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-            } else {
-                NSLog("Unable to find style.json")
-            }
-        } catch {
-            NSLog("One or more of the map styles failed to load. \(error)")
-        }
+//        do {
+//            // Set the map style by passing the URL of the local file.
+//            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
+//                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+//            } else {
+//                NSLog("Unable to find style.json")
+//            }
+//        } catch {
+//            NSLog("One or more of the map styles failed to load. \(error)")
+//        }
         view = mapView
         
     }
@@ -52,20 +52,25 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
     func moveToMarker(){
         DispatchQueue.main.async {
             if let marker = self.markerPairs.first{
-                self.mapView.animate(toLocation: marker.key.position)
+                self.mapView.animate(toLocation: CLLocationCoordinate2D(latitude: marker.value.latitude, longitude: marker.value.longitude) )
             }
         }
     }
     
     func loadMarkers(dateAggregator: DateAggregator?, detailed: Bool){
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async {
+            
+        DispatchQueue.main.sync {
             self.mapView.clear()
-            self.markerPairs.removeAll()
+        }
+        self.markerPairs.removeAll()
+
             if let aggregator = dateAggregator{
                 if aggregator.intervals.count > 0{
                     if detailed {
                         for interval in aggregator.intervals {
                             for location in interval.locations{
+                                DispatchQueue.main.sync {
                                 let marker = GMSMarker()
                                 marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
                                 marker.title = location.timeString
@@ -73,19 +78,14 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
                                 marker.icon = GMSMarker.markerImage(with: markerColor)
                                 marker.map = self.mapView
                                 
-                                let circle = GMSCircle(position: marker.position, radius: location.accuracy)
-                                circle.fillColor = unselectedCircleColor
-                                circle.strokeColor = UIColor.white
-                                circle.strokeWidth = 2
-                                
-                                circle.map = self.mapView
-                                
-                                self.markerPairs[marker] = (location, circle)
+                                self.markerPairs["\(marker.position.latitude),\(marker.position.longitude)"] = location
+                                }
                             }
                         }
                     } else {
                         for interval in aggregator.intervals {
                             if let location = interval.locations.first, let lastLocation = interval.locations.last{
+                                DispatchQueue.main.sync {
                                 let marker = GMSMarker()
                                 marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
                                 
@@ -97,8 +97,8 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
                                     marker.title = "\(location.timeString) - \(lastLocation.timeString)"
                                 }
                                 
-                                let luminance = aggregator.luminances.last(where: { (event) -> Bool in
-                                    event.date <= location.date
+                                let luminance = aggregator.luminances.first(where: { (event) -> Bool in
+                                    event.date >= location.date
                                 })
                                 marker.snippet = luminance?.luxLabel
                                 marker.map = self.mapView
@@ -109,7 +109,8 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
                                 circle.strokeWidth = 3
                                 circle.map = self.mapView
                                 
-                                self.markerPairs[marker] = (location, circle)
+                                self.markerPairs["\(marker.position.latitude),\(marker.position.longitude)"] = location
+                                }
                             }
                         }
                     }
@@ -131,15 +132,9 @@ class MapViewController : UIViewController, CLLocationManagerDelegate, GMSMapVie
     
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        
-        for iterator in markerPairs{
-            iterator.value.1.map = nil
+        DispatchQueue.main.async {
+            self.delegate?.didSelectMarker(location: self.markerPairs["\(marker.position.latitude),\(marker.position.longitude)"]!)
         }
-        
-        let circle = markerPairs[marker]!.1
-        circle.map = self.mapView
-        
-        self.delegate?.didSelectMarker(location: markerPairs[marker]!.0)
         
         return false
     }

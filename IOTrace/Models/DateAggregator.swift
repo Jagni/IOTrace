@@ -20,7 +20,7 @@ class DateAggregator : Comparable {
     }
     
     static func == (lhs: DateAggregator, rhs: DateAggregator) -> Bool {
-        return lhs.date == rhs.date
+        return lhs.date == rhs.date && lhs.intervals == rhs.intervals && lhs.luminances == rhs.luminances
     }
     
     func appendLuminance(_ luminance: LuminanceEvent) -> Bool{
