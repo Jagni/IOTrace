@@ -15,6 +15,7 @@ let mqttClient = CocoaMQTT(clientID: IOTPCredentials.clientID,
 var trackedDevice = IOTPDevice()
 
 class MQTTManager {
+
     static func sendLostCommand(value: Bool, device: IOTPDevice = IOTPDevice()){
         let topic = "iot-2/type/\(device.type)/id/\(device.id)/cmd/lost/fmt/json"
         let message = CocoaMQTTMessage(topic: topic, string: "{value: \(value ? "true" : "false")}")

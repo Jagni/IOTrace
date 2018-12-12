@@ -15,6 +15,13 @@ var detailed = false
 
 class MainContainerController: UIViewController, DateControllerDelegate, MapControllerDelegate {
     
+    @IBOutlet weak var lostImage: UIImageView!
+    @IBOutlet weak var lostButton: RoundButton!
+    @IBAction func didTapLost(_ sender: Any) {
+        self.lost = !self.lost
+        MQTTManager.sendLostCommand(value: self.lost)
+        self.updateLostButton()
+    }
     func didChangeIndex(_ index: IndexPath) {
         DispatchQueue.global(qos: .background).async {
         let chosenDate = self.client?.dateAggregations[index.item]
@@ -216,7 +223,12 @@ extension MainContainerController: CloudantDataReceiver {
     }
     
     func updateLostButton(){
-        
+        if lost {
+        self.lostImage.image = UIImage(named: "alarm-2")
+        } else {
+            self.lostImage.image = UIImage(named: "alarm")
+
+        }
     }
     
     // Display alert error

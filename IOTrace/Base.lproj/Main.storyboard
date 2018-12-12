@@ -255,29 +255,74 @@
                                     <action selector="didTapDetail:" destination="gnw-bP-AWo" eventType="touchUpInside" id="moF-Ud-rjf"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haV-cs-Q8h" customClass="RoundButton" customModule="IOTrace" customModuleProvider="target">
+                                <rect key="frame" x="244" y="101" width="60" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="MMe-Bp-Ucf"/>
+                                    <constraint firstAttribute="height" constant="60" id="rbh-zm-2AM"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRatio">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shadow" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOppacity">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowVerticalOffset">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHorizontalOffset">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="didTapLost:" destination="gnw-bP-AWo" eventType="touchUpInside" id="ie0-62-6ct"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm" translatesAutoresizingMaskIntoConstraints="NO" id="UhE-Kd-bJZ">
+                                <rect key="frame" x="262" y="119" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="UhE-Kd-bJZ" secondAttribute="height" multiplier="1:1" id="by1-GR-mSW"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="H2e-P0-QrA" secondAttribute="bottom" id="59s-ng-XOt"/>
                             <constraint firstItem="H2e-P0-QrA" firstAttribute="leading" secondItem="8KH-3O-cux" secondAttribute="leading" id="5VX-G9-c3e"/>
                             <constraint firstAttribute="trailing" secondItem="brb-No-Tye" secondAttribute="trailing" id="7y4-WE-dw4"/>
+                            <constraint firstItem="haV-cs-Q8h" firstAttribute="trailing" secondItem="8KH-3O-cux" secondAttribute="trailingMargin" id="C2e-j8-tJT"/>
                             <constraint firstItem="5qN-Xk-j7Z" firstAttribute="top" secondItem="brb-No-Tye" secondAttribute="bottom" constant="8" id="GLR-lf-Ezy"/>
                             <constraint firstItem="5qN-Xk-j7Z" firstAttribute="centerX" secondItem="8KH-3O-cux" secondAttribute="centerX" id="Kgm-jS-4Ct"/>
+                            <constraint firstItem="UhE-Kd-bJZ" firstAttribute="width" secondItem="haV-cs-Q8h" secondAttribute="width" multiplier="0.4" id="Oo4-Mj-Ct9"/>
                             <constraint firstItem="gJ5-PU-i8z" firstAttribute="centerX" secondItem="brb-No-Tye" secondAttribute="centerX" id="Owe-2N-O4K"/>
+                            <constraint firstItem="UhE-Kd-bJZ" firstAttribute="centerX" secondItem="haV-cs-Q8h" secondAttribute="centerX" id="P8d-3g-tCk"/>
                             <constraint firstItem="brb-No-Tye" firstAttribute="leading" secondItem="8KH-3O-cux" secondAttribute="leading" id="TWw-DD-jjJ"/>
                             <constraint firstAttribute="trailing" secondItem="rTq-0x-szI" secondAttribute="trailing" constant="8" id="USI-2v-Gg5"/>
                             <constraint firstAttribute="trailing" secondItem="H2e-P0-QrA" secondAttribute="trailing" id="dax-lN-rXv"/>
                             <constraint firstAttribute="bottom" secondItem="rTq-0x-szI" secondAttribute="bottom" constant="-30" id="dhQ-kJ-Hyc"/>
+                            <constraint firstItem="haV-cs-Q8h" firstAttribute="centerY" secondItem="5qN-Xk-j7Z" secondAttribute="centerY" id="iV4-4j-dEF"/>
                             <constraint firstItem="H2e-P0-QrA" firstAttribute="top" secondItem="8KH-3O-cux" secondAttribute="top" id="jIF-Dt-fwm"/>
                             <constraint firstItem="gJ5-PU-i8z" firstAttribute="centerY" secondItem="brb-No-Tye" secondAttribute="centerY" id="lSc-E6-Ksq"/>
                             <constraint firstItem="rTq-0x-szI" firstAttribute="leading" secondItem="8KH-3O-cux" secondAttribute="leading" constant="8" id="oOh-ap-rqw"/>
                             <constraint firstItem="brb-No-Tye" firstAttribute="top" secondItem="0eh-dg-oP5" secondAttribute="bottom" constant="8" id="p41-Fl-wca"/>
+                            <constraint firstItem="UhE-Kd-bJZ" firstAttribute="centerY" secondItem="haV-cs-Q8h" secondAttribute="centerY" id="q94-9I-fy6"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="detailButton" destination="5qN-Xk-j7Z" id="ciS-Sb-aRU"/>
                         <outlet property="graphView" destination="rTq-0x-szI" id="LQs-aw-bHt"/>
                         <outlet property="loadingView" destination="gJ5-PU-i8z" id="WdR-Mg-OBj"/>
+                        <outlet property="lostButton" destination="haV-cs-Q8h" id="q25-ma-p8v"/>
+                        <outlet property="lostImage" destination="UhE-Kd-bJZ" id="yKM-6c-J2F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="peW-8o-bMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -358,6 +403,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="alarm" width="170" height="170"/>
         <image name="check" width="170" height="170"/>
         <image name="light-bulb" width="170" height="170"/>
     </resources>
