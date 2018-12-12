@@ -23,4 +23,11 @@ class LocationEvent : IOTPEvent {
         self.accuracy = json["data"]["accuracy"].doubleValue
         super.init(json: json)
     }
+    
+    override init(smallJSON: JSON){
+        self.latitude = smallJSON["lat"].doubleValue
+        self.longitude = smallJSON["lon"].doubleValue
+        self.accuracy = smallJSON["accuracy"].doubleValue
+        super.init(smallJSON: smallJSON)
+    }
 }

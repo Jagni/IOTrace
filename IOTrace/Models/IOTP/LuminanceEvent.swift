@@ -29,6 +29,11 @@ class LuminanceEvent : IOTPEvent {
         super.init(json: json)
     }
     
+    override init(smallJSON: JSON){
+        self.lux = smallJSON["luminance"].doubleValue
+        super.init(smallJSON: smallJSON)
+    }
+    
     static func == (lhs: LuminanceEvent, rhs: LuminanceEvent) -> Bool {
         return lhs.lux == rhs.lux
     }

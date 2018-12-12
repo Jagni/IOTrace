@@ -34,6 +34,7 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
     weak var mapController: MapViewController!
     weak var dateController: DateCollectionController!
     weak var graphController: LuminanceGraphController!
+    var lost = false
     var currentDate: DateAggregator?
     @IBOutlet weak var graphView: UIView!
     @IBOutlet weak var loadingView: UIView!
@@ -96,12 +97,8 @@ class MainContainerController: UIViewController, DateControllerDelegate, MapCont
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
         
-//        mqttClient.username = IOTPCredentials.username
-//        mqttClient.password = IOTPCredentials.password
-//        mqttClient.keepAlive = 60
-//        mqttClient.delegate = self
-//        
-//        mqttClient.connect()
+        
+        mqttClient.delegate = self
         
         // Set up Cloudant Driver
         configureCloudant()
@@ -218,6 +215,10 @@ extension MainContainerController: CloudantDataReceiver {
         }
     }
     
+    func updateLostButton(){
+        
+    }
+    
     // Display alert error
     func showError(_ error: ApplicationError) {
         // Log Error
@@ -235,7 +236,7 @@ extension MainContainerController: CloudantDataReceiver {
 extension MainContainerController : CocoaMQTTDelegate {
     
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
-        mqttClient.subscribe("2/type/\(trackedDevice.type)/id/\(trackedDevice.id)/evt/+/fmt/json")
+        mqttClient.subscribe("iot-2/type/\(trackedDevice.type)/id/\(trackedDevice.id)/evt/+/fmt/json")
     }
     
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
@@ -254,13 +255,26 @@ extension MainContainerController : CocoaMQTTDelegate {
             return  // do nothing
         }
         let locationTopic = "iot-2/type/\(trackedDevice.type)/id/\(trackedDevice.id)/evt/location/fmt/json"
+        let luminanceTopic = "iot-2/type/\(trackedDevice.type)/id/\(trackedDevice.id)/evt/luminance/fmt/json"
+
         let lostCommand = "iot-2/type/\(trackedDevice.type)/id/\(trackedDevice.id)/cmd/lost/fmt/json"
         
         switch message.topic {
         case locationTopic:
-            //ObjectStorage
+            let location = LocationEvent(smallJSON: json)
+            if location.latitude != 0 || location.longitude != 0{
+            self.client?.addLocation(location)
+            }
+            self.didReceiveLocations()
             break
         case lostCommand:
+            self.lost = json["value"].boolValue
+            self.updateLostButton()
+            break
+        case luminanceTopic:
+            let luminance = LocationEvent(smallJSON: json)
+            self.client?.addLocation(luminance)
+            self.didReceiveLuminances()
             break
         default:
             break

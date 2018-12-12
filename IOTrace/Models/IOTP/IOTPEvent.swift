@@ -27,6 +27,11 @@ class IOTPEvent : Comparable {
         self.id = json["id"].stringValue
     }
     
+    init(smallJSON: JSON) {
+        self.timestamp = Date().toISO()
+        self.id = self.timestamp
+    }
+    
     var date : Date {
         return self.timestamp.toISODate(nil, region: Region.current)!.date
     }
